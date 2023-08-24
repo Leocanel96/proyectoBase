@@ -12,6 +12,8 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//Dentro del middlewere
+ROUTE::GET('/obtenerPlatillosCreados', 'platillosController@obtenerPlatillosCreados');
 
 
 Route::get('/{any}', function () {

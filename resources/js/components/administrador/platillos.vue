@@ -1,63 +1,69 @@
 <template>
-  <div>
-    <v-card
-        elevation="12"
-        class="mx-auto my-12"
-        max-width="1500"
-    >
-      <v-container>
-        <v-card-title>
-          Nutrition
-          <v-spacer></v-spacer>
-          <v-text-field
-              v-model="search"
-              append-icon="mdi-magnify"
-              label="Search"
-              single-line
-              hide-details
-          ></v-text-field>
-        </v-card-title>
-        <v-data-table
-            :headers="headers"
-            :items="desserts"
-            :search="search"
-        ></v-data-table>
-      </v-container>
-    </v-card>
-  </div>
+    <div>
+        <v-card
+            elevation="12"
+            class="mx-auto my-12"
+            max-width="1000"
+        >
+            <v-table
+
+            >
+                <thead>
+                <tr>
+                    <th class="text-left">
+                        Nombre del platillo
+                    </th>
+                    <th class="text-left">
+                        Descripción
+                    </th>
+                    <th class="text-left">
+                        Precio
+                    </th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr
+                    v-for="item in desserts"
+                    :key="item.name"
+                >
+                    <td>{{ item.nombrePlatillo }}</td>
+                    <td>{{ item.descripcionPlatillo }}</td>
+                    <td>{{ item.precioPlatillo }}</td>
+                </tr>
+                </tbody>
+            </v-table>
+
+        </v-card>
+    </div>
 </template>
 
 <script>
 export default {
-  name: "platillos",
-  data() {
-    return {
-      search: '',
-      headers: [
-        {
-          align: 'start',
-          key: 'name',
-          sortable: false,
-          title: 'Dessert (100g serving)',
-        },
-        {key: 'calories', title: 'Calories'},
-        {key: 'fat', title: 'Fat (g)'},
-        {key: 'carbs', title: 'Carbs (g)'},
-        {key: 'protein', title: 'Protein (g)'},
-        {key: 'iron', title: 'Iron (%)'},
-      ],
-      desserts: [
-        {
-          name: 'Frozen Yogurt',
-          calories: 159,
-          fat: 6.0,
-          carbs: 24,
-          protein: 4.0,
-          iron: 1,
-        },
-      ],
-    }
-  },
+    name: "platillos",
+    data() {
+        return {
+            desserts: [
+                {
+                    nombrePlatillo: 'Frozen Yogurt',
+                    descripcionPlatillo: 159,
+                    precioPlatillo: 159,
+                },
+            ],
+        }
+    },
+    methods: {},
+    beforeCreate() {
+        axios.get('/obtenerPlatillosCreados')
+            .then(res => {
+                console.log(JSON.stringify(res.data.solicitudesCreadas.data, null, 2))
+            })
+            .catch(err => {
+                console.log("esta en el catch del error")
+            })
+            .finally(() => {
+                console.log("esta en el finally")
+            })
+    },
 }
 </script>
 
