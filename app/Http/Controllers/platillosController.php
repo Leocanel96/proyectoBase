@@ -9,7 +9,6 @@ class platillosController extends Controller
     //
     public function obtenerPlatillosCreados()
     {
-        dd("esta llegando al controller");
         $obtenerPlatillos = platillo::select()
             ->get();
         dd($obtenerPlatillos);

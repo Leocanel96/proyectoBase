@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\platillosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -13,8 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //Dentro del middlewere
-ROUTE::GET('/obtenerPlatillosCreados', 'platillosController@obtenerPlatillosCreados');
-
+//ROUTE::GET('/obtenerPlatillosCreados', 'platillosController@obtenerPlatillosCreados');
+Route::get(
+    '/obtenerPlatillosCreados',
+    [platillosController::class, 'obtenerPlatillosCreados']
+)->name('obtenerPlatillosCreados');
 
 Route::get('/{any}', function () {
     return view('welcome');
