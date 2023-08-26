@@ -25,6 +25,11 @@ Route::get(
     [platillosController::class, 'tipoPlatillos']
 )->name('tipoPlatillos');
 
+Route::post(
+    '/guardarPlatillo',
+    [platillosController::class, 'guardarPlatillo']
+)->name('guardarPlatillo');
+
 
 Route::get('/{any}', function () {
     return view('welcome');
