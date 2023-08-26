@@ -20,6 +20,12 @@ Route::get(
     [platillosController::class, 'obtenerPlatillosCreados']
 )->name('obtenerPlatillosCreados');
 
+Route::get(
+    '/tipoPlatillos',
+    [platillosController::class, 'tipoPlatillos']
+)->name('tipoPlatillos');
+
+
 Route::get('/{any}', function () {
     return view('welcome');
 })->where('any', '.*');
