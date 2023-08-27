@@ -48,6 +48,7 @@
                                             item-title="nombre"
                                             :loading="loading"
                                             :rules="tipoPlatilloRule"
+                                            v-model="tipoPlatillo"
                                             variant="underlined"
                                             label="Tipo pizza"
                                             hide-details
@@ -81,6 +82,7 @@
                                             item-title="tipo_promocion"
                                             :loading="loading2"
                                             :rules="promocionRule"
+                                            v-model="promocionPlatillo"
                                             variant="underlined"
                                             label="Promociones"
                                             hide-details
@@ -190,7 +192,7 @@ export default {
             this.$emit('cerrarNuevoPlatillo')
         },
         guardarPlatillo() {
-            platillo = {
+            let platillo = {
                 nombrePlatillo: this.nombrePlatillo,
                 descripcionPlatillo: this.descripcionPlatillo,
                 tipoPlatillo: this.tipoPlatillo,
@@ -203,6 +205,8 @@ export default {
             })
                 .then(res => {
                     console.log("platillo almacenado correctamente")
+                    this.limpiarCampos()
+                    this.cerrarAgregarPlatillos()
                 })
                 .catch(err => {
                     console.log("ha ocurrido un error al almacenar")
@@ -223,6 +227,13 @@ export default {
 
             return textOne.indexOf(searchText) > -1
         },
+        limpiarCampos() {
+            this.nombrePlatillo = ''
+            this.descripcionPlatillo = ''
+            this.tipoPlatillo = ''
+            this.precionPlatillo = ''
+            this.promocionPlatillo = ''
+        }
 
     },
     beforeCreate() {
