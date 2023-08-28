@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\platillosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -12,6 +13,27 @@ use Illuminate\Support\Facades\Route;
 | be assigned to the "web" middleware group. Make something great!
 |
 */
+//Dentro del middlewere
+//ROUTE::GET('/obtenerPlatillosCreados', 'platillosController@obtenerPlatillosCreados');
+Route::get(
+    '/obtenerPlatillosCreados',
+    [platillosController::class, 'obtenerPlatillosCreados']
+)->name('obtenerPlatillosCreados');
+
+Route::get(
+    '/tipoPlatillos',
+    [platillosController::class, 'tipoPlatillos']
+)->name('tipoPlatillos');
+
+Route::post(
+    '/guardarPlatillo',
+    [platillosController::class, 'guardarPlatillo']
+)->name('guardarPlatillo');
+
+/*Route::post(
+    '/buscarDatosEditar',
+    [platillosController::class, 'buscarDatosEditar']
+)->name('buscarDatosEditar');*/
 
 
 Route::get('/{any}', function () {
