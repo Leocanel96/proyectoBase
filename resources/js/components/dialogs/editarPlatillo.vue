@@ -47,7 +47,7 @@
                                             item-title="nombre"
                                             :loading="loading"
                                             :rules="tipoPlatilloRule"
-                                            v-model="tipoPlatillo"
+                                            v-model="enviarPlatillo.nombre"
                                             variant="underlined"
                                             label="Tipo pizza"
                                             hide-details
@@ -81,7 +81,7 @@
                                             item-title="tipo_promocion"
                                             :loading="loading2"
                                             :rules="promocionRule"
-                                            v-model="promocionPlatillo"
+                                            v-model="enviarPlatillo.tipo_promocion"
                                             variant="underlined"
                                             label="Promociones"
                                             hide-details
@@ -110,7 +110,6 @@
                                 color="#1565C0"
                                 class="text-none text-subtitle-1"
                                 variant="flat"
-                                @click="guardarPlatillo"
                                 :disabled="!validDatos"
                             >
                                 Guardar
@@ -123,6 +122,7 @@
     </template>
 </template>
 <script>
+
 export default {
     name: "editarPlatillo",
     data: () => ({
@@ -162,99 +162,29 @@ export default {
             v => !!v || 'Promoción es requerido.',
         ],
     }),
-    watch: {
-        /*search(val) {
-            // Items have already been loaded
-            this.isLoading = true
-            axios.get('/tipoPlatillos', {
-                params: {
-                    nombre: this.search
-                }
-            })
-                .then(res => {
-                    this.items = res.data.tipoPlatillos
-                    this.querySelections(this.search)
-                })
-                .catch(err => {
-
-                    this.isLoading = false
-                })
-                .finally(() => {
-                    this.isLoading = false
-                })
-        }*/
-    },
     methods: {
         cerrarEditarPlatillo() {
             this.$emit('cerrarEditarPlatillo')
         },
         guardarPlatillo() {
-            /*let platillo = {
-                nombrePlatillo: this.nombrePlatillo,
-                descripcionPlatillo: this.descripcionPlatillo,
-                tipoPlatillo: this.tipoPlatillo,
-                precioPlatillo: this.precionPlatillo,
-                promocion: this.promocionPlatillo
-            }
-
-            axios.post('/guardarPlatillo', {
-                datos: platillo
-            })
-                .then(res => {
-                    console.log("platillo almacenado correctamente")
-                    this.limpiarCampos()
-                    this.cerrarAgregarPlatillos()
-                })
-                .catch(err => {
-                    console.log("ha ocurrido un error al almacenar")
-                })
-                .finally(() => {
-                    this.loading = false
-                })*/
         },
-        /*      buscarPlatillos(itemTitle, queryText, item) {
-                  const textOne = item.raw.nombre.toLowerCase()
-                  const searchText = queryText.toLowerCase()
 
-                  return textOne.indexOf(searchText) > -1
-              },
-              buscarPromociones(itemTitle, queryText, item) {
-                  const textOne = item.raw.tipo_promocion.toLowerCase()
-                  const searchText = queryText.toLowerCase()
+        buscarPlatillos(itemTitle, queryText, item) {
+            const textOne = item.raw.nombre.toLowerCase()
+            const searchText = queryText.toLowerCase()
 
-                  return textOne.indexOf(searchText) > -1
-              },
-              limpiarCampos() {
-                  this.nombrePlatillo = ''
-                  this.descripcionPlatillo = ''
-                  this.tipoPlatillo = ''
-                  this.precionPlatillo = ''
-                  this.promocionPlatillo = ''
-              }*/
+            return textOne.indexOf(searchText) > -1
+        },
+        buscarPromociones(itemTitle, queryText, item) {
+            const textOne = item.raw.tipo_promocion.toLowerCase()
+            const searchText = queryText.toLowerCase()
 
+            return textOne.indexOf(searchText) > -1
+        },
     },
     props: {
         enviarPlatillo: []
-    },
-    /*beforeCreate() {
-        // Items have already been loaded
-        axios.get('/tipoPlatillos', {
-            params: {
-                nombre: this.search
-            }
-        })
-            .then(res => {
-                this.loading = true
-                this.items = res.data.respuesta['tipoPlatillos']
-                this.promociones = res.data.respuesta['promociones']
-            })
-            .catch(err => {
-                this.loading = false
-            })
-            .finally(() => {
-                this.loading = false
-            })
-    }*/
+    }
 }
 </script>
 <style scoped>
