@@ -11,9 +11,10 @@ class platillosController extends Controller
 {
     public function obtenerPlatillosCreados()
     {
-        $obtenerPlatillos = platillo::select()
+        $obtenerPlatillos = platillo::selectRaw('platillo.id_platillo, platillo.nombre_platillo, platillo.descripcion_platillo, platillo.id_tipo_platillo, platillo.precio, platillo.id_promocion, promocion.id_promocion, promocion.tipo_promocion, tipo_platillo.id_tipo, tipo_platillo.nombre')
+            ->join('promocion', 'promocion.id_promocion', '=', 'platillo.id_promocion')
+            ->join('tipo_platillo', 'tipo_platillo.id_tipo', '=', 'platillo.id_tipo_platillo')
             ->get();
-
 
         return response()->json([
             'platillos' => $obtenerPlatillos
@@ -83,4 +84,5 @@ class platillosController extends Controller
             ], 403);
         }
     }
+
 }

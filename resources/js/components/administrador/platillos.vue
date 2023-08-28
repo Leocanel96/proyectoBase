@@ -113,35 +113,43 @@
 
         </v-card>
 
-        <agregar-platillos v-if="agregarNuevoPlatillo" @cerrarNuevoPlatillo="cerrarNuevoPlatillo" @guardar="guardarPlatillo"></agregar-platillos>
+        <agregar-platillos v-if="agregarNuevoPlatillo" @cerrarNuevoPlatillo="cerrarNuevoPlatillo"></agregar-platillos>
+        <editar-platillo v-if="verEditarPlatillo" :enviarPlatillo="enviarPlatillo" @cerrarEditarPlatillo="cerrarEditarPlatillo"></editar-platillo>
     </div>
 </template>
 
 <script>
 
 import AgregarPlatillos from "../dialogs/agregarPlatillos.vue";
+import EditarPlatillo from "@/components/dialogs/editarPlatillo.vue";
 
 export default {
     name: "platillos",
-    components: {AgregarPlatillos},
+    components: {EditarPlatillo, AgregarPlatillos},
     data: () => ({
         desserts: [],
         buscar: '',
         agregarNuevoPlatillo: false,
+        verEditarPlatillo: false,
+        enviarPlatillo: [],
     }),
     methods: {
         agregarPlatillo() {
             this.agregarNuevoPlatillo = true
         },
         editarPlatillo(item) {
-            console.log(JSON.stringify(item, null, 2))
+            this.verEditarPlatillo = true
+            this.enviarPlatillo = item
         },
-        guardarPlatillo() {
+        eliminarPlatillo() {
 
         },
         cerrarNuevoPlatillo() {
             this.agregarNuevoPlatillo = false
             this.buscarPlatillos()
+        },
+        cerrarEditarPlatillo() {
+            this.verEditarPlatillo = false
         },
 
         buscarPlatillos() {
@@ -159,6 +167,7 @@ export default {
         axios.get('/obtenerPlatillosCreados')
             .then(res => {
                 this.desserts = res.data.platillos
+                console.log(JSON.stringify(this.desserts, null, 2))
             })
             .catch(err => {
 

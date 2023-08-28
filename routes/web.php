@@ -30,6 +30,11 @@ Route::post(
     [platillosController::class, 'guardarPlatillo']
 )->name('guardarPlatillo');
 
+/*Route::post(
+    '/buscarDatosEditar',
+    [platillosController::class, 'buscarDatosEditar']
+)->name('buscarDatosEditar');*/
+
 
 Route::get('/{any}', function () {
     return view('welcome');
