@@ -18,6 +18,14 @@ export default {
                     transitionIn: 'bounceInUp'
                 });
             },
+            success(titulo, mensaje) {
+                iziToast.success({
+                    title: titulo,
+                    message: mensaje,
+                    position: 'topRight',
+                    transitionIn: 'bounceInUp'
+                });
+            },
             warning(titulo, mensaje) {
                 iziToast.warning({
                     title: titulo,

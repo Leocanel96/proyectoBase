@@ -135,7 +135,6 @@ export default {
   }),
   methods: {
     agregarPlatillo() {
-      this.$iziToast.info("Hola", "Esta es una prueba de mensaje")
       this.agregarNuevoPlatillo = true
     },
     editarPlatillo(item) {
@@ -168,12 +167,15 @@ export default {
     axios.get('/obtenerPlatillosCreados')
         .then(res => {
           this.desserts = res.data.platillos
-          console.log(JSON.stringify(this.desserts, null, 2))
+          if (Object.entries(this.desserts).length === 0) {
+            return this.$iziToast.warning("Atención", "No existen platillos en este momento")
+          }
         })
         .catch(err => {
-
+          this.$iziToast.error("Atención", "Ha ocurrido un error al obtener la información")
         })
         .finally(() => {
+
         })
   },
 }
