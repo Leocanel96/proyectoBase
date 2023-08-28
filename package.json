@@ -21,7 +21,7 @@
     "@vitejs/plugin-vue": "^4.2.3",
     "izitoast": "^1.4.0",
     "vue": "^3.2.36",
-    "vue-izitoast": "^1.2.1",
+    "vue-plugin-load-script": "^2.1.1",
     "vue-progressbar": "^0.7.5",
     "vue-router": "^4.2.4",
     "vuetify": "^3.3.14"
