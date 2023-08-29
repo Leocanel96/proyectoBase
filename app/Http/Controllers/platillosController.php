@@ -85,4 +85,37 @@ class platillosController extends Controller
         }
     }
 
+    public function guardarPlatilloEditado(Request $request)
+    {
+        $idPlatilloEditar = $request->datos['id_platillo'];
+        date_default_timezone_set('America/Mexico_City');
+        $fechaActual = date("d-m-Y H:i:s");
+        $nombrePlatillo = $request->datos['nombre_platillo'];
+        $descripcionPlatillo = $request->datos['descripcion_platillo'];
+        $idTipoPlatillo = $request->datos['id_tipo'];
+        $precioPlatillo = $request->datos['precio'];
+        $idPromocion = $request->datos['id_promocion'];
+
+        $editarPlatillo = platillo::find($idPlatilloEditar);
+        $editarPlatillo->nombre_platillo = $nombrePlatillo;
+        $editarPlatillo->descripcion_platillo = $descripcionPlatillo;
+        $editarPlatillo->id_tipo_platillo = $idTipoPlatillo;
+        $editarPlatillo->precio = $precioPlatillo;
+        $editarPlatillo->id_promocion = $idPromocion;
+        $editarPlatillo->id_usuario = 1;//Pendiente de actualizar cuando se tenga los usuario y login creados
+        $editarPlatillo->fecha_creacion = date('Y-m-d H:i:s');
+        if ($editarPlatillo->save()) {
+            return response()->json([
+                'title'   => 'Listo!',
+                'message' => 'Platillo almacenado correctamente.',
+            ], 200);
+        } else {
+            return response()->json([
+                'title'   => 'Atención!',
+                'message' => 'Ha ocurrido un error'
+            ], 403);
+        }
+
+    }
+
 }

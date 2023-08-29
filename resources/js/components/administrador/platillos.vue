@@ -150,6 +150,7 @@ export default {
     },
     cerrarEditarPlatillo() {
       this.verEditarPlatillo = false
+      this.buscarPlatillos()
     },
 
     buscarPlatillos() {

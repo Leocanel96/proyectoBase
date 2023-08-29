@@ -168,7 +168,7 @@ export default {
   }),
   methods: {
     cerrarAgregarPlatillos() {
-      this.$emit('cerrarNuevoPlatillo')
+      this.$emit('cerrarNuevoPlatillo', null)
     },
     guardarPlatillo() {
       let platillo = {
@@ -184,12 +184,12 @@ export default {
       })
           .then(res => {
             this.loading = false
-            this.$iziToast.success("Listo", "Platillo guardado correctamente")
+            this.$iziToast.msg(res, this.$Progress)
             this.limpiarCampos()
             this.cerrarAgregarPlatillos()
           })
           .catch(err => {
-            this.$iziToast.error("Atención", "Ha ocurrido un error al almacenar la información.")
+            this.$iziToast.msg(res, this.$Progress)
           })
           .finally(() => {
             this.loading = false
