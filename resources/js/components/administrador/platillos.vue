@@ -115,6 +115,7 @@
 
     <agregar-platillos v-if="agregarNuevoPlatillo" @cerrarNuevoPlatillo="cerrarNuevoPlatillo"></agregar-platillos>
     <editar-platillo v-if="verEditarPlatillo" :enviarPlatillo="enviarPlatillo" @cerrarEditarPlatillo="cerrarEditarPlatillo"></editar-platillo>
+    <eliminar-platillo v-if="verEliminarPlatillo" :enviarEliminarPlatillo="enviarEliminarPlatillo" @cerrarEliminarPlatillo="cerrarEliminarPlatillo"></eliminar-platillo>
   </div>
 </template>
 
@@ -122,16 +123,21 @@
 
 import AgregarPlatillos from "../dialogs/agregarPlatillos.vue";
 import EditarPlatillo from "@/components/dialogs/editarPlatillo.vue";
+import EliminarPlatillo from "@/components/dialogs/eliminarPlatillo.vue";
 
 export default {
   name: "platillos",
-  components: {EditarPlatillo, AgregarPlatillos},
+  components: {EliminarPlatillo, EditarPlatillo, AgregarPlatillos},
   data: () => ({
     desserts: [],
     buscar: '',
     agregarNuevoPlatillo: false,
+
     verEditarPlatillo: false,
     enviarPlatillo: [],
+
+    verEliminarPlatillo: false,
+    enviarEliminarPlatillo: []
   }),
   methods: {
     agregarPlatillo() {
@@ -141,8 +147,9 @@ export default {
       this.verEditarPlatillo = true
       this.enviarPlatillo = item
     },
-    eliminarPlatillo() {
-
+    eliminarPlatillo(item) {
+      this.verEliminarPlatillo = true
+      this.enviarEliminarPlatillo = item
     },
     cerrarNuevoPlatillo() {
       this.agregarNuevoPlatillo = false
@@ -152,7 +159,10 @@ export default {
       this.verEditarPlatillo = false
       this.buscarPlatillos()
     },
-
+    cerrarEliminarPlatillo() {
+      this.verEliminarPlatillo = false
+      this.buscarPlatillos()
+    },
     buscarPlatillos() {
       axios.get('/obtenerPlatillosCreados')
           .then(res => {

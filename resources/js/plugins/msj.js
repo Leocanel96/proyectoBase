@@ -18,14 +18,31 @@ export default {
                     transitionIn: 'bounceInUp'
                 });
             },
-            success(titulo, mensaje) {
+            /*            success(titulo, mensaje) {
+                            iziToast.success({
+                                title: titulo,
+                                message: mensaje,
+                                position: 'topRight',
+                                transitionIn: 'bounceInUp'
+                            });
+                        },*/
+            success(obj) {
                 iziToast.success({
-                    title: titulo,
-                    message: mensaje,
+                    title: obj.data['title'],
+                    message: obj.data['message'],
                     position: 'topRight',
                     transitionIn: 'bounceInUp'
-                });
+                })
             },
+            error(obj) {
+                iziToast.success({
+                    title: obj.data['title'],
+                    message: obj.data['message'],
+                    position: 'topRight',
+                    transitionIn: 'bounceInUp'
+                })
+            },
+
             warning(titulo, mensaje) {
                 iziToast.warning({
                     title: titulo,
@@ -34,14 +51,14 @@ export default {
                     transitionIn: 'bounceInUp'
                 });
             },
-            error(titulo, mensaje) {
-                iziToast.error({
-                    title: titulo,
-                    message: mensaje,
-                    position: 'topRight',
-                    transitionIn: 'bounceInUp'
-                });
-            },
+            /*            error(titulo, mensaje) {
+                            iziToast.error({
+                                title: titulo,
+                                message: mensaje,
+                                position: 'topRight',
+                                transitionIn: 'bounceInUp'
+                            });
+                        },*/
         }
 
     }
