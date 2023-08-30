@@ -11,14 +11,14 @@ class Controller extends BaseController
 {
     use AuthorizesRequests, ValidatesRequests;
 
-    public function obtenerPlatillosCreados()
-    {
-        dd("esta llegando al controller");
-        $obtenerPlatillos = platillo::select()
-            ->get();
-        dd($obtenerPlatillos);
-        return response()->json([
-            'platillos' => $obtenerPlatillos
-        ], 200);
-    }
+    /*    public function obtenerPlatillosCreados()
+        {
+            dd("esta llegando al controller");
+            $obtenerPlatillos = platillo::select()
+                ->get();
+            dd($obtenerPlatillos);
+            return response()->json([
+                'platillos' => $obtenerPlatillos
+            ], 200);
+        }*/
 }
