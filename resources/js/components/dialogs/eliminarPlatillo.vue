@@ -61,11 +61,30 @@ export default {
   }),
   methods: {
     cancelarEliminarPlatillo() {
-      console.log("se cancela la eliminación")
+      this.cerrarEliminarPlatillo()
+    },
+    cerrarEliminarPlatillo() {
+      this.$emit('cerrarEliminarPlatillo', null)
     },
     eliminarPlatillo(platillo) {
-      console.log("platillo")
-      console.log(JSON.stringify(platillo, null, 2))
+      let platilloEliminar = {
+        idPlatillo: platillo.id_platillo,
+      }
+
+      axios.post('/eliminarPlatillo', {
+        datos: platilloEliminar
+      })
+          .then(res => {
+            this.loading = false
+            this.$iziToast.success(res)
+            this.cerrarEliminarPlatillo()
+          })
+          .catch(err => {
+            this.$iziToast.error(err)
+          })
+          .finally(() => {
+            this.loading = false
+          })
     }
   },
   props: {

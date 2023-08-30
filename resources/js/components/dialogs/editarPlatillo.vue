@@ -175,11 +175,11 @@ export default {
       })
           .then(res => {
             this.loading = false
-            this.$iziToast.success("Listo", "Platillo editado correctamente.")
+            this.$iziToast.success(res)
             this.cerrarEditarPlatillo()
           })
           .catch(err => {
-            this.$iziToast.success("Atención", "A ocorrido un error al almacenar la información.")
+            this.$iziToast.error(err)
           })
           .finally(() => {
             this.loading = false

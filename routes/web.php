@@ -36,6 +36,12 @@ Route::post(
 )->name('guardarPlatilloEditado');
 
 
+Route::post(
+    '/eliminarPlatillo',
+    [platillosController::class, 'eliminarPlatillo']
+)->name('eliminarPlatillo');
+
+
 Route::get('/{any}', function () {
     return view('welcome');
 })->where('any', '.*');

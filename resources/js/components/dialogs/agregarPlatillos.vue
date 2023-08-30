@@ -184,12 +184,12 @@ export default {
       })
           .then(res => {
             this.loading = false
-            this.$iziToast.msg(res, this.$Progress)
+            this.$iziToast.success(res)
             this.limpiarCampos()
             this.cerrarAgregarPlatillos()
           })
           .catch(err => {
-            this.$iziToast.msg(res, this.$Progress)
+            this.$iziToast.error(err)
           })
           .finally(() => {
             this.loading = false

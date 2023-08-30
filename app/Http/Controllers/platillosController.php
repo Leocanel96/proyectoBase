@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\platillo;
 use App\Models\promocion;
 use App\Models\tipo_platillo;
+use Dflydev\DotAccessData\Data;
 use Illuminate\Http\Request;
 
 class platillosController extends Controller
@@ -107,7 +108,7 @@ class platillosController extends Controller
         if ($editarPlatillo->save()) {
             return response()->json([
                 'title'   => 'Listo!',
-                'message' => 'Platillo almacenado correctamente.',
+                'message' => 'Platillo editado correctamente.',
             ], 200);
         } else {
             return response()->json([
@@ -116,6 +117,26 @@ class platillosController extends Controller
             ], 403);
         }
 
+    }
+
+    public function eliminarPlatillo(Request $request)
+    {
+        $idPlatilloEliminar = $request->datos;
+
+        $platilloEliminar = platillo::where('id_platillo', '=', $idPlatilloEliminar)
+            ->delete();
+
+        if ($platilloEliminar === 1) {
+            return response()->json([
+                'title'   => 'Listo!',
+                'message' => 'Platillo eliminado correctamente.',
+            ], 200);
+        }
+
+        return response()->json([
+            'title'   => 'Atención!',
+            'message' => 'Ha ocurrido un error al eliminar el platillo.'
+        ], 403);
     }
 
 }
