@@ -14,7 +14,7 @@
             <v-card-title>
               <v-text-field
                   append-icon="mdi-magnify"
-                  label="Buscar Platillo"
+                  label="Buscar Usuario"
                   single-line
                   hide-details
               ></v-text-field>
@@ -27,6 +27,7 @@
             <v-btn
                 color="info"
                 dark
+                @click="agregarUsuario"
             >
               Agregar usuario
               <v-icon
@@ -61,6 +62,7 @@
         <tbody>
         <tr
             v-for="item in desserts"
+            :key="item.name"
         >
           <td>{{ item.nombres }}</td>
           <td>{{ item.apellidos }}</td>
@@ -113,7 +115,7 @@
       </v-table>
 
     </v-card>
-
+    <agregar-usuario v-if="agregarNuevoUsuario" @cerrarNuevoUsuario="cerrarNuevoUsuario"></agregar-usuario>
     <!--    <agregar-platillos v-if="agregarNuevoPlatillo" @cerrarNuevoPlatillo="cerrarNuevoPlatillo"></agregar-platillos>
         <editar-platillo v-if="verEditarPlatillo" :enviarPlatillo="enviarPlatillo" @cerrarEditarPlatillo="cerrarEditarPlatillo"></editar-platillo>
         <eliminar-platillo v-if="verEliminarPlatillo" :enviarEliminarPlatillo="enviarEliminarPlatillo" @cerrarEliminarPlatillo="cerrarEliminarPlatillo"></eliminar-platillo>-->
@@ -123,64 +125,64 @@
 <script>
 // import AgregarPlatillos from "@/components/dialogs/agregarPlatillos.vue";
 
+import AgregarUsuario from "@/components/dialogs/agregarUsuario.vue";
+
 export default {
   name: "usuarios",
-  components: {},
+  components: {AgregarUsuario},
   // AgregarPlatillos,
   data: () => ({
     desserts: [],
     buscar: '',
-    agregarNuevoPlatillo: false,
+    agregarNuevoUsuario: false,
 
-    verEditarPlatillo: false,
-    enviarPlatillo: [],
-
-    verEliminarPlatillo: false,
-    enviarEliminarPlatillo: []
+    // verEditarPlatillo: false,
+    // enviarPlatillo: [],
+    //
+    // verEliminarPlatillo: false,
+    // enviarEliminarPlatillo: []
   }),
   methods: {
     agregarUsuario() {
+      console.log("ingresa en el boton")
       // this.agregarNuevoPlatillo = true
+      this.agregarNuevoUsuario = true
     },
     editarUsuario(item) {
-      console.log(item)
+      console.log(JSON.stringify(item, null, 2))
       // this.verEditarPlatillo = true
       // this.enviarPlatillo = item
     },
     eliminarUsuario(item) {
-      console.log(item)
+      console.log(JSON.stringify(item, null, 2))
       // this.verEliminarPlatillo = true
       // this.enviarEliminarPlatillo = item
     },
-    /*
-    cerrarNuevoPlatillo() {
-      this.agregarNuevoPlatillo = false
-      this.buscarPlatillos()
+
+    cerrarNuevoUsuario() {
+      this.agregarNuevoUsuario = false
+      this.buscarUsuarios()
     },
-    cerrarEditarPlatillo() {
-      this.verEditarPlatillo = false
-      this.buscarPlatillos()
-    },
-    cerrarEliminarPlatillo() {
-      this.verEliminarPlatillo = false
-      this.buscarPlatillos()
-    },
-    buscarPlatillos() {
-      axios.get('/obtenerPlatillosCreados')
+    buscarUsuarios() {
+      axios.get('/obtenerUsuariosCreados')
           .then(res => {
-            this.desserts = res.data.platillos
+            this.desserts = res.data.usuarios
+            if (Object.entries(this.desserts).length === 0) {
+              return this.$iziToast.warning("Atención", "No existen usuarios en este momento")
+            }
           })
           .catch(err => {
+            this.$iziToast.error(err)
           })
           .finally(() => {
+
           })
-    }*/
+    }
   },
   beforeCreate() {
     axios.get('/obtenerUsuariosCreados')
         .then(res => {
           this.desserts = res.data.usuarios
-          console.log(JSON.stringify(this.desserts, null, 2))
           if (Object.entries(this.desserts).length === 0) {
             return this.$iziToast.warning("Atención", "No existen usuarios en este momento")
           }

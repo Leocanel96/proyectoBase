@@ -22,6 +22,7 @@ Route::post('/guardarPlatillo', [platillosController::class, 'guardarPlatillo'])
 Route::post('/guardarPlatilloEditado', [platillosController::class, 'guardarPlatilloEditado'])->name('guardarPlatilloEditado');
 Route::post('/eliminarPlatillo', [platillosController::class, 'eliminarPlatillo'])->name('eliminarPlatillo');
 Route::get('/obtenerUsuariosCreados', [usuariosController::class, 'obtenerUsuariosCreados'])->name('obtenerUsuariosCreados');
+Route::get('/rolUsuarios', [usuariosController::class, 'rolUsuarios'])->name('rolUsuarios');
 
 
 Route::get('/{any}', function () {
