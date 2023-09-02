@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\platillosController;
+use App\Http\Controllers\usuariosController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -15,31 +16,13 @@ use Illuminate\Support\Facades\Route;
 */
 //Dentro del middlewere
 //ROUTE::GET('/obtenerPlatillosCreados', 'platillosController@obtenerPlatillosCreados');
-Route::get(
-    '/obtenerPlatillosCreados',
-    [platillosController::class, 'obtenerPlatillosCreados']
-)->name('obtenerPlatillosCreados');
-
-Route::get(
-    '/tipoPlatillos',
-    [platillosController::class, 'tipoPlatillos']
-)->name('tipoPlatillos');
-
-Route::post(
-    '/guardarPlatillo',
-    [platillosController::class, 'guardarPlatillo']
-)->name('guardarPlatillo');
-
-Route::post(
-    '/guardarPlatilloEditado',
-    [platillosController::class, 'guardarPlatilloEditado']
-)->name('guardarPlatilloEditado');
-
-
-Route::post(
-    '/eliminarPlatillo',
-    [platillosController::class, 'eliminarPlatillo']
-)->name('eliminarPlatillo');
+Route::get('/obtenerPlatillosCreados', [platillosController::class, 'obtenerPlatillosCreados'])->name('obtenerPlatillosCreados');
+Route::get('/tipoPlatillos', [platillosController::class, 'tipoPlatillos'])->name('tipoPlatillos');
+Route::post('/guardarPlatillo', [platillosController::class, 'guardarPlatillo'])->name('guardarPlatillo');
+Route::post('/guardarPlatilloEditado', [platillosController::class, 'guardarPlatilloEditado'])->name('guardarPlatilloEditado');
+Route::post('/eliminarPlatillo', [platillosController::class, 'eliminarPlatillo'])->name('eliminarPlatillo');
+Route::get('/obtenerUsuariosCreados', [usuariosController::class, 'obtenerUsuariosCreados'])->name('obtenerUsuariosCreados');
+Route::get('/rolUsuarios', [usuariosController::class, 'rolUsuarios'])->name('rolUsuarios');
 
 
 Route::get('/{any}', function () {

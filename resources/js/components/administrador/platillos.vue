@@ -183,7 +183,7 @@ export default {
           }
         })
         .catch(err => {
-          this.$iziToast.error("Atención", "Ha ocurrido un error al obtener la información")
+          this.$iziToast.error(err)
         })
         .finally(() => {
 
