@@ -33,7 +33,7 @@
                   >
                     <v-text-field
                         v-model="apellidos"
-                        label="Apellidos"
+                        label="Apellidos|"
                         variant="underlined"
                         :rules="apellidosRule"
                         counter="20"
@@ -105,99 +105,8 @@
   </template>
 </template>
 
-<script>
-export default {
-  name: "agregarUsuario",
-  data: () => ({
-    dialog: true,
-    nombres: '',
-    apellidos: '',
-    correo: '',
-    rol: '',
+<script setup>
 
-    //autocomplete
-    loading: false,
-    items: [],
-
-    //formulario
-    validDatos: false,
-    agregarUsuario: false,
-
-    // Reglas de las cajas de texto
-    nombresRule: [
-      v => !!v || 'Los nombres son requeridos',
-    ],
-    apellidosRule: [
-      v => !!v || 'Los apellidos son requeridos.',
-    ],
-    correoRule: [
-      v => !!v || 'Correo es requerido.',
-      v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Correo debe ser valido.'
-    ],
-    rolRule: [
-      v => !!v || 'Rol es requerido.',
-    ],
-  }),
-  methods: {
-    cerrarAgregarUsuario() {
-      this.$emit('cerrarNuevoUsuario', null)
-    },
-    guardarUsuario() {
-      let usuario = {
-        nombres: this.nombres,
-        apellidos: this.apellidos,
-        correo: this.correo,
-        rol: this.rol
-      }
-
-      axios.post('/guardarUsuario', {
-        datos: usuario
-      })
-          .then(res => {
-            this.loading = false
-            this.$iziToast.success(res)
-            this.limpiarCampos()
-            this.cerrarAgregarUsuario()
-          })
-          .catch(err => {
-            this.$iziToast.error(err)
-          })
-          .finally(() => {
-            this.loading = false
-          })
-    },
-    buscarRol(itemTitle, queryText, item) {
-      const textOne = item.raw.nombre_rol.toLowerCase()
-      const searchText = queryText.toLowerCase()
-
-      return textOne.indexOf(searchText) > -1
-    },
-    limpiarCampos() {
-      this.nombres = ''
-      this.apellidos = ''
-      this.correo = ''
-      this.rol = ''
-    }
-  },
-  beforeCreate() {
-    // Items have already been loaded
-    axios.get('/rolUsuarios', {
-      params: {
-        nombre: this.search
-      }
-    })
-        .then(res => {
-          this.loading = true
-          this.items = res.data.rolesEncontrados
-        })
-        .catch(err => {
-          this.loading = false
-        })
-        .finally(() => {
-          this.loading = false
-        })
-  }
-}
 </script>
 
 <style scoped>

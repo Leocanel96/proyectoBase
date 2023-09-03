@@ -37,4 +37,34 @@ class usuariosController extends Controller
         ], 200);
     }
 
+    public function guardarUsuario(Request $request)
+    {
+        $usuarioEnviado = $request->datos;
+        $nombres = $usuarioEnviado['nombres'];
+        $apellidos = $usuarioEnviado['apellidos'];
+        $correo = $usuarioEnviado['correo'];
+        $idRol = $usuarioEnviado['rol']['id_rol'];
+        $nombreRol = $usuarioEnviado['rol']['nombre_rol'];
+
+        //guardar usuario
+        $guardarUsuario = new usuario();
+        $guardarUsuario->nombres = $nombres;
+        $guardarUsuario->apellidos = $apellidos;
+        $guardarUsuario->correo = $correo;
+        $guardarUsuario->id_rol = $idRol;
+        $guardarUsuario->fecha_creacion = date('Y-m-d H:i:s');
+        if ($guardarUsuario->save()) {
+            return response()->json([
+                'title'   => 'Listo!',
+                'message' => 'Usuario creado correctamente.',
+            ], 200);
+        }
+
+        return response()->json([
+            'title'   => 'Atención',
+            'message' => 'Ha ocurrido un error al almacenar la información, por favor intente de nuevo.',
+        ], 500);
+
+    }
+
 }

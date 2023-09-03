@@ -144,8 +144,6 @@ export default {
   }),
   methods: {
     agregarUsuario() {
-      console.log("ingresa en el boton")
-      // this.agregarNuevoPlatillo = true
       this.agregarNuevoUsuario = true
     },
     editarUsuario(item) {
