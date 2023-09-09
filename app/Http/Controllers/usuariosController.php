@@ -12,9 +12,24 @@ class usuariosController extends Controller
     //
     public function obtenerUsuariosCreados()
     {
-        $obtenerUsuarios = usuario::selectRaw('usuario.id_usuario, usuario.nombres, usuario.apellidos, usuario.correo, usuario.id_rol, rol.id_rol, rol.nombre_rol')
+        //obtener todos los usuarios sin excepcion. Los usuario inactivos aparecen al final de la lista
+        $obtenerUsuarios = usuario::selectRaw('usuario.id_usuario, usuario.nombres, usuario.apellidos, usuario.estado_usuario, usuario.correo, usuario.id_rol, rol.id_rol, rol.nombre_rol')
             ->join('rol', 'rol.id_rol', '=', 'usuario.id_rol')
+            ->orderBy('usuario.estado_usuario', 'desc')
             ->get();
+
+
+        //funcion map mas efectiva que el foreach solo para collections que a cada objeto le agrega el estado del documento si este registro no tiene fecha de egreso
+        $obtenerUsuarios = $obtenerUsuarios->map(function ($obtenerUsuarios) {
+            if ($obtenerUsuarios['estado_usuario'] == 1) {
+                $obtenerUsuarios['estado_usuario'] = 'Activo';
+                $obtenerUsuarios['id_estado_usuario'] = 1;
+            } else {
+                $obtenerUsuarios['estado_usuario'] = 'Inactivo';
+                $obtenerUsuarios['id_estado_usuario'] = 0;
+            }
+            return $obtenerUsuarios;
+        });
 
 
         return response()->json([
@@ -51,6 +66,7 @@ class usuariosController extends Controller
         $guardarUsuario->nombres = $nombres;
         $guardarUsuario->apellidos = $apellidos;
         $guardarUsuario->correo = $correo;
+        $guardarUsuario->estado_usuario = 1;
         $guardarUsuario->id_rol = $idRol;
         $guardarUsuario->fecha_creacion = date('Y-m-d H:i:s');
         if ($guardarUsuario->save()) {
@@ -65,6 +81,72 @@ class usuariosController extends Controller
             'message' => 'Ha ocurrido un error al almacenar la información, por favor intente de nuevo.',
         ], 500);
 
+    }
+
+    public function guardarUsuarioEditado(Request $request)
+    {
+        $idUsuario = $request->datos['id_usuario'];
+        $nombres = $request->datos['nombres'];
+        $apellidos = $request->datos['apellidos'];
+        $correo = $request->datos['correo'];
+        $idRol = $request->datos['id_rol'];
+
+        //editar usuario
+        $editarUsuario = usuario::find($idUsuario);
+        $editarUsuario->nombres = $nombres;
+        $editarUsuario->apellidos = $apellidos;
+        $editarUsuario->correo = $correo;
+        $editarUsuario->id_rol = $idRol;
+        if ($editarUsuario->save()) {
+            return response()->json([
+                'title'   => 'Listo!',
+                'message' => 'Usuario editado correctamente.',
+            ], 200);
+        }
+
+        return response()->json([
+            'title'   => 'Atención',
+            'message' => 'Ha ocurrido un error al editar el usuario.',
+        ], 403);
+
+    }
+
+    public function desactivarUsuario(Request $request)
+    {
+        $idUsuario = $request->datos['idUsuario'];
+        $desactivarUsuario = usuario::find($idUsuario);
+        $desactivarUsuario->estado_usuario = 0;
+
+        if ($desactivarUsuario->save()) {
+            return response()->json([
+                'title'   => 'Listo!',
+                'message' => 'Usuario desactivado con éxito',
+            ], 200);
+        }
+
+        return response()->json([
+            'title'   => 'Atención',
+            'message' => 'Ha ocurrido un error al desactivar el usaurio, por favor intente de nuevo',
+        ], 403);
+    }
+
+    public function activarUsuario(Request $request)
+    {
+        $idUsuario = $request->datos['id_usuario'];
+        $activarUsuario = usuario::find($idUsuario);
+        $activarUsuario->estado_usuario = 1;
+
+        if ($activarUsuario->save()) {
+            return response()->json([
+                'title'   => 'Listo!',
+                'message' => 'Usuario activado con éxito',
+            ], 200);
+        }
+
+        return response()->json([
+            'title'   => 'Atención',
+            'message' => 'Ha ocurrido un error al activar el usaurio, por favor intente de nuevo',
+        ], 403);
     }
 
 }

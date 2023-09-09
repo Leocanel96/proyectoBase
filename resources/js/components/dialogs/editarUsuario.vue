@@ -19,7 +19,7 @@
                       sm="6"
                   >
                     <v-text-field
-                        v-model="nombres"
+                        v-model="enviarUsuario.nombres"
                         label="Nombres"
                         variant="underlined"
                         :rules="nombresRule"
@@ -32,7 +32,7 @@
                       sm="6"
                   >
                     <v-text-field
-                        v-model="apellidos"
+                        v-model="enviarUsuario.apellidos"
                         label="Apellidos|"
                         variant="underlined"
                         :rules="apellidosRule"
@@ -45,7 +45,7 @@
                       sm="6"
                   >
                     <v-text-field
-                        v-model="correo"
+                        v-model="enviarUsuario.correo"
                         label="Correo"
                         variant="underlined"
                         :rules="correoRule"
@@ -63,7 +63,7 @@
                         item-title="nombre_rol"
                         :loading="loading"
                         :rules="rolRule"
-                        v-model="rol"
+                        v-model="enviarUsuario.nombre_rol"
                         variant="underlined"
                         label="Rol"
                         hide-details
@@ -83,7 +83,7 @@
                   color="#DD2C00"
                   class="text-none text-subtitle-1"
                   variant="flat"
-                  @click="cerrarAgregarUsuario"
+                  @click="cerrarEditarUsuario"
               >
                 Cerrar
               </v-btn>
@@ -92,7 +92,7 @@
                   color="#1565C0"
                   class="text-none text-subtitle-1"
                   variant="flat"
-                  @click="guardarUsuario"
+                  @click="guardarUsuarioEditado"
                   :disabled="!validDatos"
               >
                 Guardar
@@ -105,8 +105,102 @@
   </template>
 </template>
 
-<script setup>
+<script>
+export default {
+  name: "editarUsuario",
+  data: () => ({
+    dialog: true,
+    nombres: '',
+    apellidos: '',
+    correo: '',
+    rol: '',
 
+    //autocomplete
+    loading: false,
+    items: [],
+
+    //formulario
+    validDatos: false,
+    agregarUsuario: false,
+
+    // Reglas de las cajas de texto
+    nombresRule: [
+      v => !!v || 'Los nombres son requeridos',
+    ],
+    apellidosRule: [
+      v => !!v || 'Los apellidos son requeridos.',
+    ],
+    correoRule: [
+      v => !!v || 'Correo es requerido.',
+      v => !v || /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(v) || 'Correo debe ser valido.'
+    ],
+    rolRule: [
+      v => !!v || 'Rol es requerido.',
+    ],
+  }),
+  methods: {
+    cerrarEditarUsuario() {
+      this.$emit('cerrarUsuarioEditado', null)
+    },
+    guardarUsuarioEditado() {
+      console.log("se comienza a guardar")
+      axios.post('/guardarUsuarioEditado', {
+        datos: this.enviarUsuario
+      })
+          .then(res => {
+            this.loading = false
+            this.$iziToast.success(res)
+            this.limpiarCampos()
+            this.cerrarEditarUsuario()
+          })
+          .catch(err => {
+            this.$iziToast.error(err)
+          })
+          .finally(() => {
+            this.loading = false
+          })
+    },
+    buscarRol(itemTitle, queryText, item) {
+      const textOne = item.raw.nombre_rol.toLowerCase()
+      const searchText = queryText.toLowerCase()
+
+      return textOne.indexOf(searchText) > -1
+    },
+    limpiarCampos() {
+      this.nombres = ''
+      this.apellidos = ''
+      this.correo = ''
+      this.rol = ''
+    }
+  },
+  beforeCreate() {
+    // Items have already been loaded
+    axios.get('/rolUsuarios', {
+      params: {
+        nombre: this.search
+      }
+    })
+        .then(res => {
+          this.loading = true
+          this.items = res.data.rolesEncontrados
+        })
+        .catch(err => {
+          this.loading = false
+        })
+        .finally(() => {
+          this.loading = false
+        })
+  },
+  props: {
+    enviarUsuario: {
+      id_usuario: Number,
+      nombres: String,
+      apellidos: String,
+      correo: String,
+      id_rol: Number
+    }
+  }
+}
 </script>
 
 <style scoped>

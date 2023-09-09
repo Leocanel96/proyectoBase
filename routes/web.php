@@ -24,6 +24,9 @@ Route::post('/eliminarPlatillo', [platillosController::class, 'eliminarPlatillo'
 Route::get('/obtenerUsuariosCreados', [usuariosController::class, 'obtenerUsuariosCreados'])->name('obtenerUsuariosCreados');
 Route::get('/rolUsuarios', [usuariosController::class, 'rolUsuarios'])->name('rolUsuarios');
 Route::post('/guardarUsuario', [usuariosController::class, 'guardarUsuario'])->name('guardarUsuario');
+Route::post('/guardarUsuarioEditado', [usuariosController::class, 'guardarUsuarioEditado'])->name('guardarUsuarioEditado');
+Route::post('/desactivarUsuario', [usuariosController::class, 'desactivarUsuario'])->name('desactivarUsuario');
+Route::post('/activarUsuario', [usuariosController::class, 'activarUsuario'])->name('activarUsuario');
 
 
 Route::get('/{any}', function () {
