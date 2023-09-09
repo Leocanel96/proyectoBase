@@ -19,7 +19,7 @@
                       sm="6"
                   >
                     <v-text-field
-                        v-model="nombres"
+                        v-model="enviarUsuario.nombres"
                         label="Nombres"
                         variant="underlined"
                         :rules="nombresRule"
@@ -32,8 +32,8 @@
                       sm="6"
                   >
                     <v-text-field
-                        v-model="apellidos"
-                        label="Apellidos"
+                        v-model="enviarUsuario.apellidos"
+                        label="Apellidos|"
                         variant="underlined"
                         :rules="apellidosRule"
                         counter="20"
@@ -45,7 +45,7 @@
                       sm="6"
                   >
                     <v-text-field
-                        v-model="correo"
+                        v-model="enviarUsuario.correo"
                         label="Correo"
                         variant="underlined"
                         :rules="correoRule"
@@ -63,7 +63,7 @@
                         item-title="nombre_rol"
                         :loading="loading"
                         :rules="rolRule"
-                        v-model="rol"
+                        v-model="enviarUsuario.nombre_rol"
                         variant="underlined"
                         label="Rol"
                         hide-details
@@ -83,7 +83,7 @@
                   color="#DD2C00"
                   class="text-none text-subtitle-1"
                   variant="flat"
-                  @click="cerrarAgregarUsuario"
+                  @click="cerrarEditarUsuario"
               >
                 Cerrar
               </v-btn>
@@ -92,7 +92,7 @@
                   color="#1565C0"
                   class="text-none text-subtitle-1"
                   variant="flat"
-                  @click="guardarUsuario"
+                  @click="guardarUsuarioEditado"
                   :disabled="!validDatos"
               >
                 Guardar
@@ -107,7 +107,7 @@
 
 <script>
 export default {
-  name: "agregarUsuario",
+  name: "editarUsuario",
   data: () => ({
     dialog: true,
     nombres: '',
@@ -139,25 +139,19 @@ export default {
     ],
   }),
   methods: {
-    cerrarAgregarUsuario() {
-      this.$emit('cerrarNuevoUsuario', null)
+    cerrarEditarUsuario() {
+      this.$emit('cerrarUsuarioEditado', null)
     },
-    guardarUsuario() {
-      let usuario = {
-        nombres: this.nombres,
-        apellidos: this.apellidos,
-        correo: this.correo,
-        rol: this.rol
-      }
-
-      axios.post('/guardarUsuario', {
-        datos: usuario
+    guardarUsuarioEditado() {
+      console.log("se comienza a guardar")
+      axios.post('/guardarUsuarioEditado', {
+        datos: this.enviarUsuario
       })
           .then(res => {
             this.loading = false
             this.$iziToast.success(res)
             this.limpiarCampos()
-            this.cerrarAgregarUsuario()
+            this.cerrarEditarUsuario()
           })
           .catch(err => {
             this.$iziToast.error(err)
@@ -196,6 +190,15 @@ export default {
         .finally(() => {
           this.loading = false
         })
+  },
+  props: {
+    enviarUsuario: {
+      id_usuario: Number,
+      nombres: String,
+      apellidos: String,
+      correo: String,
+      id_rol: Number
+    }
   }
 }
 </script>
