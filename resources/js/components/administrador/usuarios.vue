@@ -129,6 +129,13 @@
                 </tr>
                 </tbody>
             </v-table>
+            <v-pagination
+                v-model="page"
+                :length="totalPaginas"
+                :total-visible="10"
+                rounded="circle"
+                @update:modelValue="buscarUsuarios"
+            ></v-pagination>
 
         </v-card>
         <agregar-usuario v-if="agregarNuevoUsuario" @cerrarNuevoUsuario="cerrarNuevoUsuario"></agregar-usuario>
@@ -154,7 +161,9 @@ export default {
         verEditarUsuario: false,
         enviarUsuario: [],
         verDesactivarUsuario: false,
-        enviarDesactivarUsuario: []
+        enviarDesactivarUsuario: [],
+        totalPaginas: 0,
+        page: 1
     }),
     methods: {
         agregarUsuario() {
@@ -197,9 +206,10 @@ export default {
             this.buscarUsuarios()
         },
         buscarUsuarios() {
-            axios.get('/obtenerUsuariosCreados')
+            axios.get('/obtenerUsuariosCreados?page=' + this.page)
                 .then(res => {
-                    this.desserts = res.data.usuarios
+                    this.desserts = res.data['usuarios']['data']
+                    this.totalPaginas = res.data.usuarios.last_page
                     if (Object.entries(this.desserts).length === 0) {
                         return this.$iziToast.warning("Atención", "No existen usuarios en este momento")
                     }
@@ -213,9 +223,10 @@ export default {
         }
     },
     beforeCreate() {
-        axios.get('/obtenerUsuariosCreados')
+        axios.get('/obtenerUsuariosCreados?page=' + 1)
             .then(res => {
-                this.desserts = res.data.usuarios
+                this.desserts = res.data['usuarios']['data']
+                this.totalPaginas = res.data.usuarios.last_page
                 if (Object.entries(this.desserts).length === 0) {
                     return this.$iziToast.warning("Atención", "No existen usuarios en este momento")
                 }

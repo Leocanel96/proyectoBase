@@ -16,11 +16,10 @@ class usuariosController extends Controller
         $obtenerUsuarios = usuario::selectRaw('usuario.id_usuario, usuario.nombres, usuario.apellidos, usuario.estado_usuario, usuario.correo, usuario.id_rol, rol.id_rol, rol.nombre_rol')
             ->join('rol', 'rol.id_rol', '=', 'usuario.id_rol')
             ->orderBy('usuario.estado_usuario', 'desc')
-            ->get();
+            ->paginate(5);
 
 
-        //funcion map mas efectiva que el foreach solo para collections que a cada objeto le agrega el estado del documento si este registro no tiene fecha de egreso
-        $obtenerUsuarios = $obtenerUsuarios->map(function ($obtenerUsuarios) {
+        $obtenerUsuarios->getCollection()->map(function ($obtenerUsuarios) {
             if ($obtenerUsuarios['estado_usuario'] == 1) {
                 $obtenerUsuarios['estado_usuario'] = 'Activo';
                 $obtenerUsuarios['id_estado_usuario'] = 1;
@@ -30,6 +29,22 @@ class usuariosController extends Controller
             }
             return $obtenerUsuarios;
         });
+
+
+        //funcion map mas efectiva que el foreach solo para collections que a cada objeto le agrega el estado del documento si este registro no tiene fecha de egreso
+//        $obtenerUsuarios = $obtenerUsuarios->map(function ($obtenerUsuarios) {
+//            if ($obtenerUsuarios['estado_usuario'] == 1) {
+//                $obtenerUsuarios['estado_usuario'] = 'Activo';
+//                $obtenerUsuarios['id_estado_usuario'] = 1;
+//            } else {
+//                $obtenerUsuarios['estado_usuario'] = 'Inactivo';
+//                $obtenerUsuarios['id_estado_usuario'] = 0;
+//            }
+//            return $obtenerUsuarios;
+//        });
+
+        $obtenerUsuarios = json_encode($obtenerUsuarios);
+        $obtenerUsuarios = json_decode($obtenerUsuarios);
 
 
         return response()->json([
