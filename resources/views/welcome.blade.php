@@ -12,8 +12,15 @@
     @vite(['resources/js/app.js'])
 </head>
 <body>
-<div id="dasboard"></div>
+<div id="dasboard">
 
+    <div>
+        <workarea></workarea>
+    </div>
+    <div>
+        <login></login>
+    </div>
 
+</div>
 </body>
 </html>
