@@ -1,5 +1,6 @@
 <template>
   <h1>soy un login jejeje</h1>
+  vamos a ver que pasa
 </template>
 
 <script>
