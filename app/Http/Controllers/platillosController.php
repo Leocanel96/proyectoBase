@@ -15,7 +15,10 @@ class platillosController extends Controller
         $obtenerPlatillos = platillo::selectRaw('platillo.id_platillo, platillo.nombre_platillo, platillo.descripcion_platillo, platillo.id_tipo_platillo, platillo.precio, platillo.id_promocion, promocion.id_promocion, promocion.tipo_promocion, tipo_platillo.id_tipo, tipo_platillo.nombre')
             ->join('promocion', 'promocion.id_promocion', '=', 'platillo.id_promocion')
             ->join('tipo_platillo', 'tipo_platillo.id_tipo', '=', 'platillo.id_tipo_platillo')
-            ->get();
+            ->paginate(5);
+
+        $obtenerPlatillos = json_encode($obtenerPlatillos);
+        $obtenerPlatillos = json_decode($obtenerPlatillos);
 
         return response()->json([
             'platillos' => $obtenerPlatillos
