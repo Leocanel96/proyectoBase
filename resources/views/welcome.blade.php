@@ -13,13 +13,13 @@
 </head>
 <body>
 <div id="dasboard">
-
-    <div>
-        <workarea></workarea>
-    </div>
-    <div>
+    @php(session_start())
+    @if(!isset($_SESSION['id_user']))
         <login></login>
-    </div>
+    @else
+        <workarea></workarea>
+    @endif
+
 
 </div>
 </body>
