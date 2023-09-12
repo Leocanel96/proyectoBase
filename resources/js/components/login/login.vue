@@ -1,6 +1,12 @@
 <template>
-  <h1>soy un login jejeje</h1>
-  vamos a ver que pasa
+  <h2>pruebas del push</h2>
+  <h2>pruebas del push</h2>
+  <h2>pruebas del push</h2>
+  <h2>pruebas del push</h2>
+  <h2>pruebas del push</h2>
+  <h2>pruebas del push</h2>
+  <h2>pruebas del push</h2>
+  <h2>pruebas del push</h2>
 </template>
 
 <script>
