@@ -9,33 +9,50 @@ import cambioPass from "../components/personal/cambioPass.vue";
 const routes = [
     {
         path: '/',
-        name: 'home',
-        component: Home
-    },
+        name:
+            'home',
+        component:
+        Home
+    }
+    ,
     {
         path: '/about',
-        name: 'about',
-        component: About
-    },
+        name:
+            'about',
+        component:
+        About
+    }
+    ,
     {
         path: '/platillos',
-        name: 'platillos',
-        component: platillos
-    },
+        name:
+            'platillos',
+        component:
+        platillos
+    }
+    ,
     {
         path: '/usuarios',
-        name: 'usuarios',
-        component: usuarios
-    },
+        name:
+            'usuarios',
+        component:
+        usuarios
+    }
+    ,
     {
         path: '/roles',
-        name: 'roles',
-        component: roles
-    },
+        name:
+            'roles',
+        component:
+        roles
+    }
+    ,
     {
         path: '/cambioPass',
-        name: 'cambioPass',
-        component: cambioPass
+        name:
+            'cambioPass',
+        component:
+        cambioPass
     }
 ]
 

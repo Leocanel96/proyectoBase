@@ -13,6 +13,7 @@
                     >
                         <v-card-title>
                             <v-text-field
+                                v-model="buscar"
                                 append-icon="mdi-magnify"
                                 label="Buscar Usuario"
                                 single-line
@@ -64,7 +65,7 @@
                 </thead>
                 <tbody>
                 <tr
-                    v-for="item in desserts"
+                    v-for="item in usuarios"
                     :key="item.name"
                 >
                     <td>{{ item.nombres }}</td>
@@ -220,6 +221,13 @@ export default {
                 .finally(() => {
 
                 })
+        }
+    },
+    computed: {
+        usuarios: function () {
+            return this.desserts.filter((item) => {
+                return item.nombres.toLowerCase().match(this.buscar.toLowerCase());
+            })
         }
     },
     beforeCreate() {
