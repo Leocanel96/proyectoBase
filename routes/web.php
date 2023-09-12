@@ -3,6 +3,7 @@
 use App\Http\Controllers\platillosController;
 use App\Http\Controllers\usuariosController;
 use App\Http\Controllers\rolesController;
+use App\Http\Controllers\LoginController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,6 +34,8 @@ Route::post('/guardarRol', [rolesController::class, 'guardarRol'])->name('guarda
 Route::post('/guardarRolEditado', [rolesController::class, 'guardarRolEditado'])->name('guardarRolEditado');
 Route::post('/desactivarRol', [rolesController::class, 'desactivarRol'])->name('desactivarRol');
 Route::post('/activarRol', [rolesController::class, 'activarRol'])->name('activarRol');
+
+Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::get('/{any}', function () {
     return view('welcome');
