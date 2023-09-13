@@ -11,10 +11,14 @@ class autenticacion
     /**
      * Handle an incoming request.
      *
-     * @param  \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response)  $next
+     * @param \Closure(\Illuminate\Http\Request): (\Symfony\Component\HttpFoundation\Response) $next
      */
     public function handle(Request $request, Closure $next): Response
     {
+        session_start();
+        if (!isset($_SESSION['id_user'])) {
+            return response(['title' => 'Atención', 'message' => 'Usuario no logeado'], 401);
+        }
         return $next($request);
     }
 }

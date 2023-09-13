@@ -35,12 +35,18 @@ export default {
                 })
             },
             error(obj) {
-                iziToast.success({
-                    title: obj.data['title'],
-                    message: obj.data['message'],
+                console.log(obj);
+                let status = obj.response.status
+                let title = obj.response.data['title'] != undefined ? obj.response.data['title'] : 'Error(' + status + ')'
+                iziToast.error({
+                    title: title,
+                    message: obj.response.data['message'],
                     position: 'topRight',
                     transitionIn: 'bounceInUp'
                 })
+                if (status == 401) {
+                    location.reload()
+                }
             },
 
             warning(titulo, mensaje) {
