@@ -21,12 +21,12 @@ class LoginController extends Controller
             ->where('contraseña', '=', $password)
             ->where('correo', '=', $usuario)
             ->get();
-
+        $idUsuario = $validarPass[0]['id_usuario'];
         if (!$validarPass->isEmpty()) {
             session_start();
-            $_SESSION['id_user'] = 1;
+            $_SESSION['id_user'] = $idUsuario;
             return response()->json([
-                'title'   => 'Hola!',
+                'title'   => 'Sesión iniciada',
                 'message' => 'Bienvenido'
             ], 200);
         }
@@ -34,11 +34,5 @@ class LoginController extends Controller
             'title'   => 'Atención!',
             'message' => 'Credenciales incorrectas.'
         ], 403);
-
-    }
-
-    public function cerrarSesion()
-    {
-
     }
 }
