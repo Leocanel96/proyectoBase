@@ -32,12 +32,12 @@
                 </template>
 
                 <v-list-item
-                    v-for="({text, route, icon}, index) in sistema"
+                    v-for="({text, icon}, index) in sistema"
                     :key="index"
-                    :to="route"
                     :value="text"
                     :title="text"
                     :prepend-icon="icon"
+                    @click="logout"
                 ></v-list-item>
             </v-list-group>
 
@@ -76,12 +76,29 @@ export default {
             {text: "Roles", route: "/roles", icon: "mdi-account-switch"},
         ],
         sistema: [
-            {text: "Cerrar Sesión", route: "/cerrarSesion", icon: "mdi-account-key-outline"}
+            {text: "Cerrar Sesión", icon: "mdi-account-key-outline"}
         ],
         personal: [
             {text: "Cambiar contraseña", route: "/cambioPass", icon: "mdi-lock-reset"}
         ],
     }),
+    methods: {
+        logout() {
+            axios.get('/logout')
+                .then(res => {
+                    this.loading = true
+                    this.$iziToast.success(res)
+                    location.reload()
+                })
+                .catch(err => {
+                    this.loading = false
+                    this.$iziToast.error(err)
+                })
+                .finally(() => {
+                    this.loading = false
+                })
+        }
+    }
 }
 </script>
 

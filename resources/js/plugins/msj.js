@@ -35,7 +35,6 @@ export default {
                 })
             },
             error(obj) {
-                console.log(obj);
                 let status = obj.response.status
                 let title = obj.response.data['title'] != undefined ? obj.response.data['title'] : 'Error(' + status + ')'
                 iziToast.error({

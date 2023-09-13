@@ -4,6 +4,7 @@ use App\Http\Controllers\platillosController;
 use App\Http\Controllers\usuariosController;
 use App\Http\Controllers\rolesController;
 use App\Http\Controllers\LoginController;
+use App\Http\Controllers\LogoutController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\autenticacion;
 
@@ -36,7 +37,7 @@ Route::middleware([autenticacion::class])->group(function () {
     Route::post('/guardarRolEditado', [rolesController::class, 'guardarRolEditado'])->name('guardarRolEditado');
     Route::post('/desactivarRol', [rolesController::class, 'desactivarRol'])->name('desactivarRol');
     Route::post('/activarRol', [rolesController::class, 'activarRol'])->name('activarRol');
-    Route::get('/cerrarSesion', [LoginController::class, 'cerrarSesion'])->name('cerrarSesion');
+    Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
 });
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
