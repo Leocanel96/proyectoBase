@@ -5,7 +5,7 @@
                 <div></div>
                 <h1>404</h1>
             </div>
-            <h2>error</h2>
+            <h2>Error</h2>
             <p>La página que está buscando podría haber sido eliminada, o no esté disponible temporalmente.</p>
             <a @click="goHome">Ir a principal</a>
         </div>

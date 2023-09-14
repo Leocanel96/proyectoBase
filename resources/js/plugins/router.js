@@ -5,6 +5,7 @@ import platillos from "../components/administrador/platillos.vue"
 import usuarios from "../components/administrador/usuarios.vue"
 import roles from "../components/administrador/roles.vue"
 import cambioPass from "../components/personal/cambioPass.vue";
+import notFound404 from "../components/error/notFound404.vue";
 
 const routes = [
     {
@@ -12,11 +13,6 @@ const routes = [
         name: 'home',
         component: Home
     },
-    // {
-    //     path: '/about',
-    //     name: 'about',
-    //     component: About
-    // },
     {
         path: '/platillos',
         name: 'platillos',
@@ -36,6 +32,11 @@ const routes = [
         path: '/cambioPass',
         name: 'cambioPass',
         component: cambioPass
+    },
+    {
+        path: '/:catchAll(.*)',
+        name: 'notFound404',
+        component: notFound404
     }
 ]
 
