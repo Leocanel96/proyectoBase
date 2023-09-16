@@ -1,6 +1,5 @@
 <template>
   <v-container>
-    <h1>Cambio de contraseña</h1>
     <v-form v-model="valid" @submit.prevent="cambiarPass" ref="form">
 
       <v-card
@@ -22,10 +21,12 @@
               Por las políticas de seguridad, se requiere que la contraseña cumpla con:
               <ul>
                 <li>Tener como mínimo <strong>8</strong> caracteres.</li>
+                <li>Tener al menos <strong>1</strong> mayúscula, <strong>1</strong> minúscula, <strong>1</strong> número y <strong>1</strong>carácter especial.</li>
+                <li>Carácteres especiales permitidos: <strong>@$!%*?&</strong></li>
               </ul>
             </li>
             <li>
-              Ejemplo <span class="font-italic font-weight-thin">(no use el ejemplo para establecer su contraseña)</span>: miPAss11
+              Ejemplo <span class="font-italic font-weight-thin">(no use el ejemplo para establecer su contraseña)</span>: Hola2023*
             </li>
           </ul>
         </v-alert>
@@ -104,6 +105,8 @@
 </template>
 
 <script>
+import sha256 from 'crypto-js/sha256';
+
 export default {
   name: "cambioPass",
   data: () => ({
@@ -123,12 +126,15 @@ export default {
     // Reglas de las cajas de texto
     contraseñaActualRule: [
       v => !!v || 'Contraseña actual es requerida.',
+      v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v) || 'No cumple con los parámetros solicitados',
     ],
     contraseñaNuevaRule: [
       v => !!v || 'Contraseña nueva es requerida.',
+      v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v) || 'No cumple con los parámetros solicitados',
     ],
     confirmarContraseñaNuevaRule: [
       v => !!v || 'Confirmar contraseña nueva es requerida.',
+      v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v) || 'No cumple con los parámetros solicitados',
     ]
 
   }),
@@ -143,20 +149,20 @@ export default {
       this.loading = true
 
       let credenciales = {
-        actual: this.contraseñaActual,
-        nueva: this.nuevaContraseña,
-        confirmacion: this.confirmarNuevaContraseña
+        actual: sha256(this.contraseñaActual).toString(),
+        nueva: sha256(this.nuevaContraseña).toString(),
+        confirmacion: sha256(this.confirmarNuevaContraseña).toString()
       }
 
       axios.post('/cambiarPassword', {
         datos: credenciales
       })
           .then(res => {
-            // this.$iziToast.msg(res, this.$Progress);
-            // this.form = Object.assign({}, this.defaultForm)
+            this.$iziToast.success(res);
+            this.limpiar()
           })
           .catch(err => {
-            this.$iziToast.fail(err, this.$Progress)
+            this.$iziToast.error(err)
           })
           .finally(() => {
             this.loading = false

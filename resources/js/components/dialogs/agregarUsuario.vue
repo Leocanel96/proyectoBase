@@ -74,6 +74,51 @@
                     ></v-autocomplete>
                   </v-col>
                 </v-row>
+                <v-row>
+                  <v-col
+                      cols="12"
+                      sm="6"
+                  >
+                    <v-text-field
+                        v-model="contraseña"
+                        label="Contraseña"
+                        variant="underlined"
+                        :rules="contraseñaRule"
+                        :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+                        :type="visible ? 'text' : 'password'"
+                        density="compact"
+                        placeholder="Enter your password"
+                        prepend-inner-icon="mdi-lock-outline"
+                        @click:append-inner="visible = !visible"
+                        counter="20"
+                        maxlength="20"
+                    ></v-text-field>
+                  </v-col>
+                </v-row>
+                <v-row>
+                  <v-alert
+                      icon="mdi-shield-lock-outline"
+                      dense
+                      outlined
+                      prominent
+                      text
+                      type="info"
+                  >
+                    <ul>
+                      <li class="pb-3">
+                        Por las políticas de seguridad, se requiere que la contraseña cumpla con:
+                        <ul>
+                          <li>Tener como mínimo <strong>8</strong> caracteres.</li>
+                          <li>Tener al menos <strong>1</strong> mayúscula, <strong>1</strong> minúscula, <strong>1</strong> número y <strong>1</strong>carácter especial.</li>
+                          <li>Carácteres especiales permitidos: <strong>@$!%*?&</strong></li>
+                        </ul>
+                      </li>
+                      <li>
+                        Ejemplo <span class="font-italic font-weight-thin">(no use el ejemplo para establecer su contraseña)</span>: Hola2023*
+                      </li>
+                    </ul>
+                  </v-alert>
+                </v-row>
               </v-container>
             </v-card-text>
             <v-card-actions>
@@ -106,6 +151,8 @@
 </template>
 
 <script>
+import sha256 from "crypto-js/sha256";
+
 export default {
   name: "agregarUsuario",
   data: () => ({
@@ -114,6 +161,8 @@ export default {
     apellidos: '',
     correo: '',
     rol: '',
+    contraseña: '',
+    visible: false,
 
     //autocomplete
     loading: false,
@@ -137,6 +186,10 @@ export default {
     rolRule: [
       v => !!v || 'Rol es requerido.',
     ],
+    contraseñaRule: [
+      v => !!v || 'Contraseña es requerida.',
+      v => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/.test(v) || 'No cumple con los parámetros solicitados',
+    ],
   }),
   methods: {
     cerrarAgregarUsuario() {
@@ -147,6 +200,7 @@ export default {
         nombres: this.nombres,
         apellidos: this.apellidos,
         correo: this.correo,
+        contraseña: sha256(this.contraseña).toString(),
         rol: this.rol
       }
 
