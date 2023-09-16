@@ -111,19 +111,6 @@
                       >
                       </v-icon>
                     </div>
-                    <div>
-                      <v-tooltip
-                          activator="parent"
-                          location="top"
-                      >Activar Rol
-                      </v-tooltip>
-                      <v-icon icon="mdi-check-all"
-                              dark
-                              @click="activarRol(item)"
-                      >
-                      </v-icon>
-                    </div>
-
                   </div>
                 </v-col>
               </v-row>
