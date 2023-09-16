@@ -6,6 +6,7 @@ import usuarios from "../components/administrador/usuarios.vue"
 import roles from "../components/administrador/roles.vue"
 import cambioPass from "../components/personal/cambioPass.vue";
 import notFound404 from "../components/error/notFound404.vue";
+import permisos from "@/components/administrador/permisos.vue";
 
 const routes = [
     {
@@ -27,6 +28,11 @@ const routes = [
         path: '/roles',
         name: 'roles',
         component: roles
+    },
+    {
+        path: '/permisos',
+        name: 'permisos',
+        component: permisos
     },
     {
         path: '/cambioPass',

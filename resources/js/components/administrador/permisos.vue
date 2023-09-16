@@ -105,10 +105,10 @@
 </template>
 
 <script>
-import sha256 from 'crypto-js/sha256';
+import sha256 from "crypto-js/sha256.js";
 
 export default {
-  name: "cambioPass",
+  name: "permisos",
   data: () => ({
     visibleContraseñaActual: false,
     visibleNuevaContraseña: false,
@@ -177,6 +177,7 @@ export default {
   },
 }
 </script>
+
 <style scoped>
 
 </style>
