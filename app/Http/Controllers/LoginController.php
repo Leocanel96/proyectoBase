@@ -17,17 +17,34 @@ class LoginController extends Controller
         $password = $request->pass;
         $usuario = $request->user;
 
-        $validarPass = usuario::selectRaw('id_usuario, nombres, contraseña')
+        $validarPass = usuario::selectRaw('id_usuario, nombres, apellidos, contraseña, estado_usuario')
             ->where('contraseña', '=', $password)
             ->where('correo', '=', $usuario)
             ->get();
-        $idUsuario = $validarPass[0]['id_usuario'];
+
+        if ($validarPass[0]['estado_usuario'] !== 1) {
+            return response()->json([
+                'title'   => 'Atención!',
+                'message' => 'Usuario no se encuentra activo'
+            ], 403);
+        }
+
+
         if (!$validarPass->isEmpty()) {
             session_start();
+            $idUsuario = $validarPass[0]['id_usuario'];
+            $nombres = $validarPass[0]['nombres'];
+            $apellidos = $validarPass[0]['apellidos'];
+
             $_SESSION['id_user'] = $idUsuario;
+            $_SESSION['nombres'] = $nombres;
+            $_SESSION['apellidos'] = $apellidos;
+
             return response()->json([
-                'title'   => 'Sesión iniciada',
-                'message' => 'Bienvenido'
+                'title'     => 'Sesión iniciada',
+                'message'   => 'Bienvenido',
+                'nombres'   => $nombres,
+                'apellidos' => $apellidos
             ], 200);
         }
         return response()->json([

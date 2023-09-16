@@ -20,7 +20,6 @@ use App\Http\Middleware\autenticacion;
 |
 */
 //Dentro del middlewere
-//ROUTE::GET('/obtenerPlatillosCreados', 'platillosController@obtenerPlatillosCreados');
 Route::middleware([autenticacion::class])->group(function () {
     Route::get('/obtenerPlatillosCreados', [platillosController::class, 'obtenerPlatillosCreados'])->name('obtenerPlatillosCreados');
     Route::get('/tipoPlatillos', [platillosController::class, 'tipoPlatillos'])->name('tipoPlatillos');
@@ -40,11 +39,10 @@ Route::middleware([autenticacion::class])->group(function () {
     Route::post('/activarRol', [rolesController::class, 'activarRol'])->name('activarRol');
     Route::get('/logout', [LogoutController::class, 'logout'])->name('logout');
     Route::post('/cambiarPassword', [cambioContraseñaController::class, 'cambiarPassword'])->name('cambiarPassword');
+//    Route::post('/enviarCorreo', [platillosController::class, 'enviarCorreo'])->name('enviarCorreo');
 });
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
 Route::get('/{any}', function () {
     return view('welcome');
 })->where('any', '.*');
-
-//Route::get()

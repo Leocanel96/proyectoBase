@@ -15,6 +15,7 @@ class usuariosController extends Controller
         //obtener todos los usuarios sin excepcion. Los usuario inactivos aparecen al final de la lista
         $obtenerUsuarios = usuario::selectRaw('usuario.id_usuario, usuario.nombres, usuario.apellidos, usuario.estado_usuario, usuario.correo, usuario.id_rol, rol.id_rol, rol.nombre_rol')
             ->join('rol', 'rol.id_rol', '=', 'usuario.id_rol')
+            ->orderBy('usuario.id_usuario', 'asc')
             ->orderBy('usuario.estado_usuario', 'desc')
             ->paginate(5);
 
@@ -73,14 +74,15 @@ class usuariosController extends Controller
         $nombres = $usuarioEnviado['nombres'];
         $apellidos = $usuarioEnviado['apellidos'];
         $correo = $usuarioEnviado['correo'];
+        $contraseña = $usuarioEnviado['contraseña'];
         $idRol = $usuarioEnviado['rol']['id_rol'];
         $nombreRol = $usuarioEnviado['rol']['nombre_rol'];
-
         //guardar usuario
         $guardarUsuario = new usuario();
         $guardarUsuario->nombres = $nombres;
         $guardarUsuario->apellidos = $apellidos;
         $guardarUsuario->correo = $correo;
+        $guardarUsuario->contraseña = $contraseña;
         $guardarUsuario->estado_usuario = 1;
         $guardarUsuario->id_rol = $idRol;
         $guardarUsuario->fecha_creacion = date('Y-m-d H:i:s');

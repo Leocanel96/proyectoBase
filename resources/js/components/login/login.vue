@@ -90,6 +90,7 @@ export default {
       axios.post('/login', parametros)
           .then(res => {
             this.$iziToast.success(res)
+            localStorage.setItem('user', JSON.stringify(res.data, null, 2))
             this.limpiar()
             location.reload()
           })

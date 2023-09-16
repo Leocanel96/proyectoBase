@@ -17,7 +17,10 @@ class autenticacion
     {
         session_start();
         if (!isset($_SESSION['id_user'])) {
-            return response(['title' => 'Atención', 'message' => 'Usuario no logeado'], 401);
+            return response([
+                'title'   => 'Atención',
+                'message' => 'Usuario no logeado'
+            ], 401);
         }
         return $next($request);
     }
