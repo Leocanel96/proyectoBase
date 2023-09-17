@@ -94,8 +94,7 @@ class platillosController extends Controller
         }
     }
 
-    public
-    function guardarPlatilloEditado(Request $request)
+    public function guardarPlatilloEditado(Request $request)
     {
         $idPlatilloEditar = $request->datos['id_platillo'];
         date_default_timezone_set('America/Mexico_City');
@@ -128,8 +127,7 @@ class platillosController extends Controller
 
     }
 
-    public
-    function eliminarPlatillo(Request $request)
+    public function eliminarPlatillo(Request $request)
     {
         $idPlatilloEliminar = $request->datos;
 

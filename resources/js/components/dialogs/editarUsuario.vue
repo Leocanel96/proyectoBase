@@ -143,7 +143,6 @@ export default {
       this.$emit('cerrarUsuarioEditado', null)
     },
     guardarUsuarioEditado() {
-      console.log("se comienza a guardar")
       axios.post('/guardarUsuarioEditado', {
         datos: this.enviarUsuario
       })
