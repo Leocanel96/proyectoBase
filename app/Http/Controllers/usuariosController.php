@@ -106,7 +106,7 @@ class usuariosController extends Controller
         $nombres = $request->datos['nombres'];
         $apellidos = $request->datos['apellidos'];
         $correo = $request->datos['correo'];
-        $idRol = $request->datos['id_rol'];
+        $idRol = $request->datos['nombre_rol']['id_rol'];
 
         //editar usuario
         $editarUsuario = usuario::find($idUsuario);

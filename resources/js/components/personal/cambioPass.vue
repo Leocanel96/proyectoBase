@@ -138,7 +138,6 @@ export default {
     ]
 
   }),
-
   methods: {
     setPassword() {
       if (this.nuevaContraseña !== this.confirmarNuevaContraseña) {

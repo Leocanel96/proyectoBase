@@ -81,12 +81,7 @@
                     >
                     </v-icon>
                   </div>
-                </v-col>
-                <v-col
-                    cols="auto"
-                    class="me-auto"
-                >
-                  <div>
+                  <div style="margin: 3%">
                     <v-tooltip
                         activator="parent"
                         location="top"
@@ -111,19 +106,6 @@
                       >
                       </v-icon>
                     </div>
-                    <div>
-                      <v-tooltip
-                          activator="parent"
-                          location="top"
-                      >Activar Rol
-                      </v-tooltip>
-                      <v-icon icon="mdi-check-all"
-                              dark
-                              @click="activarRol(item)"
-                      >
-                      </v-icon>
-                    </div>
-
                   </div>
                 </v-col>
               </v-row>
@@ -171,12 +153,10 @@ export default {
       this.agregarNuevoRol = true
     },
     editarRol(item) {
-      console.log(JSON.stringify(item, null, 2))
       this.verEditarRol = true
       this.enviarRol = item
     },
     desactivarRol(item) {
-      console.log(JSON.stringify(item, null, 2))
       this.verDesactivarRol = true
       this.enviarDesactivarRol = item
     },
