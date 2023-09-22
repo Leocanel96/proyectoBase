@@ -22,16 +22,18 @@ class LoginController extends Controller
             ->where('correo', '=', $usuario)
             ->get();
 
-        if ($validarPass[0]['estado_usuario'] !== 1) {
-            return response()->json([
-                'title'   => 'Atención!',
-                'message' => 'Usuario no se encuentra activo'
-            ], 403);
-        }
-
+        
 
         if (!$validarPass->isEmpty()) {
+            
             session_start();
+            if ($validarPass[0]['estado_usuario'] !== 1) {
+                return response()->json([
+                    'title'   => 'Atención!',
+                    'message' => 'Usuario no se encuentra activo'
+                ], 403);
+            }
+    
             $idUsuario = $validarPass[0]['id_usuario'];
             $nombres = $validarPass[0]['nombres'];
             $apellidos = $validarPass[0]['apellidos'];
