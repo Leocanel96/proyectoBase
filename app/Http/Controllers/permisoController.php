@@ -11,25 +11,22 @@ class permisoController extends Controller
     {
         $obtenerPermisos = permiso::select()
             ->paginate(5);
-//        $obtenerRoles->getCollection()->map(function ($obtenerRoles) {
-//            if ($obtenerRoles['estado_rol'] == 1) {
-//                $obtenerRoles['estado_rol'] = 'Activo';
-//                $obtenerRoles['id_estado_rol'] = 1;
-//            } else {
-//                $obtenerRoles['estado_rol'] = 'Inactivo';
-//                $obtenerRoles['id_estado_rol'] = 0;
-//            }
-//            return $obtenerRoles;
-//        });
 
+
+        $cantidadValores = $obtenerPermisos . sizeof($obtenerPermisos);
         $obtenerPermisos = json_encode($obtenerPermisos);
         $obtenerPermisos = json_decode($obtenerPermisos);
+
+
+        for ($i = 1; $i <= $cantidadValores - 1; $i++) {
+            $obtenerPermisos->permisos_creados = $permisos = json_decode($obtenerPermisos->data[$i]->permisos_creados);
+        }
+
 
         return response()->json([
             'permisos' => $obtenerPermisos
         ], 200);
     }
-
 
     public function guardarPermiso(Request $request)
     {
@@ -68,6 +65,31 @@ class permisoController extends Controller
             return response()->json([
                 'title'   => 'Atención!',
                 'message' => 'Ha ocurrido un error'
+            ], 403);
+        }
+    }
+
+    public function guardarPermisosAgregados(Request $request)
+    {
+        $permisosAdministrador = $request->datos['administrador'];
+        $permisosSistema = $request->datos['sistema'];
+        $permisosPersonal = $request->datos['personal'];
+
+        $permisos = $request->datos;
+        $permisos = json_encode($permisos);
+
+        $id = $request->datos['idEditar'];
+        $guardarPermisos = permiso::find($id);
+        $guardarPermisos->permisos_creados = $permisos;
+        if ($guardarPermisos->save()) {
+            return response()->json([
+                'title'   => 'Listo!',
+                'message' => 'Permisos agregados correctamente.',
+            ], 200);
+        } else {
+            return response()->json([
+                'title'   => 'Atención!',
+                'message' => 'Ha ocurrido un error, por favor verifique.'
             ], 403);
         }
     }

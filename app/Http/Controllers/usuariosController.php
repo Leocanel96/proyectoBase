@@ -17,6 +17,7 @@ class usuariosController extends Controller
             ->join('rol', 'rol.id_rol', '=', 'usuario.id_rol')
             ->orderBy('usuario.id_usuario', 'asc')
             ->orderBy('usuario.estado_usuario', 'desc')
+            ->where('usuario.id_rol', '!=', 1)
             ->paginate(5);
 
 
@@ -56,6 +57,7 @@ class usuariosController extends Controller
     public function rolUsuarios(Request $request)
     {
         $busquedaRol = rol::selectRaw('id_rol,nombre_rol')
+            ->where('id_rol', '!=', 1)
             ->get();
 
         if ($busquedaRol->isEmpty()) {
@@ -88,13 +90,13 @@ class usuariosController extends Controller
         $guardarUsuario->fecha_creacion = date('Y-m-d H:i:s');
         if ($guardarUsuario->save()) {
             return response()->json([
-                'title'   => 'Listo!',
+                'title' => 'Listo!',
                 'message' => 'Usuario creado correctamente.',
             ], 200);
         }
 
         return response()->json([
-            'title'   => 'Atención',
+            'title' => 'Atención',
             'message' => 'Ha ocurrido un error al almacenar la información, por favor intente de nuevo.',
         ], 500);
 
@@ -106,23 +108,34 @@ class usuariosController extends Controller
         $nombres = $request->datos['nombres'];
         $apellidos = $request->datos['apellidos'];
         $correo = $request->datos['correo'];
-        $idRol = $request->datos['nombre_rol']['id_rol'];
+        if (isset($request->datos['nombre_rol']['id_rol'])) {
+            $idRol = $request->datos['nombre_rol']['id_rol'];
+        }
+        if ($request->contraseña != '') {
+            $contraseña = $request->contraseña;
+        }
 
         //editar usuario
         $editarUsuario = usuario::find($idUsuario);
         $editarUsuario->nombres = $nombres;
         $editarUsuario->apellidos = $apellidos;
         $editarUsuario->correo = $correo;
-        $editarUsuario->id_rol = $idRol;
+        if (isset($idRol)) {
+            $editarUsuario->id_rol = $idRol;
+        }
+        if (isset($contraseña)) {
+            $editarUsuario->contraseña = $contraseña;
+        }
+
         if ($editarUsuario->save()) {
             return response()->json([
-                'title'   => 'Listo!',
+                'title' => 'Listo!',
                 'message' => 'Usuario editado correctamente.',
             ], 200);
         }
 
         return response()->json([
-            'title'   => 'Atención',
+            'title' => 'Atención',
             'message' => 'Ha ocurrido un error al editar el usuario.',
         ], 403);
 
@@ -136,13 +149,13 @@ class usuariosController extends Controller
 
         if ($desactivarUsuario->save()) {
             return response()->json([
-                'title'   => 'Listo!',
+                'title' => 'Listo!',
                 'message' => 'Usuario desactivado con éxito',
             ], 200);
         }
 
         return response()->json([
-            'title'   => 'Atención',
+            'title' => 'Atención',
             'message' => 'Ha ocurrido un error al desactivar el usaurio, por favor intente de nuevo',
         ], 403);
     }
@@ -155,13 +168,13 @@ class usuariosController extends Controller
 
         if ($activarUsuario->save()) {
             return response()->json([
-                'title'   => 'Listo!',
+                'title' => 'Listo!',
                 'message' => 'Usuario activado con éxito',
             ], 200);
         }
 
         return response()->json([
-            'title'   => 'Atención',
+            'title' => 'Atención',
             'message' => 'Ha ocurrido un error al activar el usaurio, por favor intente de nuevo',
         ], 403);
     }

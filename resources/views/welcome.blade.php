@@ -19,8 +19,6 @@
     @else
         <workarea></workarea>
     @endif
-
-
 </div>
 </body>
 </html>
