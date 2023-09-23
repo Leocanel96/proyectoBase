@@ -44,7 +44,6 @@ Route::middleware([autenticacion::class])->group(function () {
     Route::post('/guardarPermiso', [permisoController::class, 'guardarPermiso'])->name('guardarPermiso');
     Route::post('/guardarPermisoEditado', [permisoController::class, 'guardarPermisoEditado'])->name('guardarPermisoEditado');
     Route::post('/guardarPermisosAgregados', [permisoController::class, 'guardarPermisosAgregados'])->name('guardarPermisosAgregados');
-//    Route::post('/enviarCorreo', [platillosController::class, 'enviarCorreo'])->name('enviarCorreo');
 });
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 

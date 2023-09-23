@@ -13,14 +13,14 @@ class permisoController extends Controller
             ->paginate(5);
 
 
-        $cantidadValores = $obtenerPermisos . sizeof($obtenerPermisos);
+//        $cantidadValores = $obtenerPermisos . sizeof($obtenerPermisos);
         $obtenerPermisos = json_encode($obtenerPermisos);
         $obtenerPermisos = json_decode($obtenerPermisos);
 
 
-        for ($i = 1; $i <= $cantidadValores - 1; $i++) {
-            $obtenerPermisos->permisos_creados = $permisos = json_decode($obtenerPermisos->data[$i]->permisos_creados);
-        }
+//        for ($i = 1; $i <= $cantidadValores - 1; $i++) {
+//            $obtenerPermisos->permisos_creados = $permisos = json_decode($obtenerPermisos->data[$i]->permisos_creados);
+//        }
 
 
         return response()->json([
@@ -31,9 +31,11 @@ class permisoController extends Controller
     public function guardarPermiso(Request $request)
     {
         $nombrePermiso = $request->datos['nombrePermiso'];
+        $descripcionPermiso = $request->datos['descripcionPermiso'];
 
         $guardarPermiso = new permiso();
         $guardarPermiso->nombre_permiso = $nombrePermiso;
+        $guardarPermiso->descripcion = $descripcionPermiso;
         $guardarPermiso->fecha_creacion = date('Y-m-d H:i:s');
         if ($guardarPermiso->save()) {
             return response()->json([
@@ -53,9 +55,11 @@ class permisoController extends Controller
     {
         $idPermiso = $request->datos['id_permiso'];
         $nombrePermiso = $request->datos['nombre_permiso'];
+        $descripcionPermiso = $request->datos['descripcion'];
 
         $editarPermiso = permiso::find($idPermiso);
         $editarPermiso->nombre_permiso = $nombrePermiso;
+        $editarPermiso->descripcion = $descripcionPermiso;
         if ($editarPermiso->save()) {
             return response()->json([
                 'title'   => 'Listo!',
