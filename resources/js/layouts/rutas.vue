@@ -11,7 +11,7 @@
                 </template>
 
                 <v-list-item
-                    v-for="({text, route, icon}, index) in links"
+                    v-for="({text, route, icon}, index) in administrador"
                     :key="index"
                     :to="route"
                     :value="text"
@@ -70,7 +70,7 @@ export default {
     name: "rutas",
     data: () => ({
         open: ['Administrador'],
-        links: [
+        administrador: [
             {text: "Platillos", route: "/platillos", icon: "mdi-chef-hat"},
             {text: "Usuarios", route: "/usuarios", icon: "mdi-account"},
             {text: "Roles", route: "/roles", icon: "mdi-account-switch"},
@@ -84,6 +84,8 @@ export default {
         ],
     }),
     methods: {
+        fetchRoutes() {
+        },
         logout() {
             axios.get('/logout')
                 .then(res => {

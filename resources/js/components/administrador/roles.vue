@@ -47,6 +47,12 @@
                         Rol
                     </th>
                     <th class="text-left">
+                        Nombre del Icono
+                    </th>
+                    <th class="text-left">
+                        Icono
+                    </th>
+                    <th class="text-left">
                         Estado Rol
                     </th>
                     <th class="text-left">
@@ -60,6 +66,12 @@
                     :key="item.rol"
                 >
                     <td>{{ item.nombre_rol }}</td>
+                    <td>{{ item.icono }}</td>
+                    <td>
+                        <v-icon>
+                            {{ item.icono }}
+                        </v-icon>
+                    </td>
                     <td>{{ item.estado_rol }}</td>
                     <td class="tamañoIconos">
                         <v-container>

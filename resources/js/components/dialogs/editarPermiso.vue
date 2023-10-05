@@ -4,7 +4,7 @@
             <v-dialog
                 v-model="dialogEditarPermiso"
                 persistent
-                width="600"
+                width="800"
             >
                 <v-form v-model="validDatos" @submit.prevent="agregarPermiso">
                     <v-card>
@@ -19,7 +19,7 @@
                                         sm="6"
                                     >
                                         <v-text-field
-                                            v-model="enviarPermiso.nombre_permiso"
+                                            v-model="enviarPermiso.nombre"
                                             label="Nombre del permiso"
                                             variant="underlined"
                                             :rules="nombrePermisoRule"
@@ -40,6 +40,62 @@
                                             counter="100"
                                             maxlength="100"
                                         ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col
+                                        cols="12"
+                                        sm="6"
+                                    >
+                                        <v-text-field
+                                            v-model="enviarPermiso.titulo"
+                                            label="Título del permiso"
+                                            variant="underlined"
+                                            :rules="tituloPermisoRule"
+                                            counter="100"
+                                            maxlength="100"
+                                        ></v-text-field>
+                                    </v-col>
+
+
+                                    <v-col
+                                        cols="12"
+                                        sm="6"
+                                    >
+                                        <v-text-field
+                                            v-model="enviarPermiso.path"
+                                            label="Ruta"
+                                            variant="underlined"
+                                            :rules="rutaPermisoRule"
+                                            counter="100"
+                                            maxlength="100"
+                                        ></v-text-field>
+                                    </v-col>
+
+                                </v-row>
+                                <v-row>
+                                    <v-col
+                                        cols="12"
+                                        sm="6"
+                                    >
+                                        <v-text-field
+                                            v-model="enviarPermiso.icono"
+                                            label="Icono"
+                                            variant="underlined"
+                                            :rules="iconoPermisoRule"
+                                            counter="100"
+                                            maxlength="100"
+                                        ></v-text-field>
+                                    </v-col>
+
+
+                                    <v-col
+                                        cols="12"
+                                        sm="6"
+                                    >
+                                        <v-icon>
+                                            {{ enviarPermiso.icono }}
+                                        </v-icon>
                                     </v-col>
                                 </v-row>
                             </v-container>
@@ -89,7 +145,16 @@ export default {
         ],
         descripcionPermisoRule: [
             v => !!v || 'Descripción del Permiso es requerido',
-        ]
+        ],
+        tituloPermisoRule: [
+            v => !!v || 'Título  del Permiso es requerido',
+        ],
+        rutaPermisoRule: [
+            v => !!v || 'Ruta del Permiso es requerido',
+        ],
+        iconoPermisoRule: [
+            v => !!v || 'Icono del Permiso es requerido',
+        ],
     }),
     methods: {
         cerrarEditarPermiso() {

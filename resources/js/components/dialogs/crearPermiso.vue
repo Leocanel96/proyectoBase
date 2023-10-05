@@ -4,7 +4,7 @@
             <v-dialog
                 v-model="dialog"
                 persistent
-                width="600"
+                width="800"
             >
                 <v-form v-model="validDatos" @submit.prevent="agregarPermiso">
                     <v-card>
@@ -37,6 +37,50 @@
                                             label="Descripción permiso"
                                             variant="underlined"
                                             :rules="descripcionPermisoRule"
+                                            counter="100"
+                                            maxlength="100"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col
+                                        cols="12"
+                                        sm="6"
+                                    >
+                                        <v-text-field
+                                            v-model="tituloPermiso"
+                                            label="Título permiso"
+                                            variant="underlined"
+                                            :rules="tituloPermisoRule"
+                                            counter="100"
+                                            maxlength="100"
+                                        ></v-text-field>
+                                    </v-col>
+                                    <v-col
+                                        cols="12"
+                                        sm="6"
+                                    >
+                                        <v-text-field
+                                            v-model="rutaPermiso"
+                                            label="Ruta permiso"
+                                            variant="underlined"
+                                            :rules="rutaPermisoRule"
+                                            counter="100"
+                                            maxlength="100"
+                                        ></v-text-field>
+                                    </v-col>
+                                </v-row>
+                                <v-row>
+                                    <v-col
+                                        cols="12"
+                                        sm="6"
+                                    >
+                                        <v-text-field
+                                            v-model="iconoPermiso"
+                                            label="Icono permiso"
+                                            variant="underlined"
+                                            :rules="iconoPermisoRule"
+                                            placeholder="mdi-account"
                                             counter="100"
                                             maxlength="100"
                                         ></v-text-field>
@@ -79,6 +123,9 @@ export default {
         dialog: true,
         nombrePermiso: '',
         descripcionPermiso: '',
+        tituloPermiso: '',
+        rutaPermiso: '',
+        iconoPermiso: '',
         //formulario
         validDatos: false,
         agregarPermiso: false,
@@ -89,6 +136,15 @@ export default {
         ],
         descripcionPermisoRule: [
             v => !!v || 'Descripción del permiso es requerido',
+        ],
+        tituloPermisoRule: [
+            v => !!v || 'Título del permiso es requerido',
+        ],
+        iconoPermisoRule: [
+            v => !!v || 'Icono del permiso es requerido',
+        ],
+        rutaPermisoRule: [
+            v => !!v || 'Ruta del permiso es requerido',
         ]
     }),
     methods: {
@@ -98,7 +154,10 @@ export default {
         guardarPermiso() {
             let permiso = {
                 nombrePermiso: this.nombrePermiso,
-                descripcionPermiso: this.descripcionPermiso
+                descripcionPermiso: this.descripcionPermiso,
+                tituloPermiso: this.tituloPermiso,
+                rutaPermiso: this.rutaPermiso,
+                iconoPermiso: this.iconoPermiso
             }
 
             axios.post('/guardarPermiso', {

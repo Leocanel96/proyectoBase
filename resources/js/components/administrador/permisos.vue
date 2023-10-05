@@ -44,13 +44,22 @@
                 <thead>
                 <tr>
                     <th class="text-left">
-                        Nombre del permiso
+                        Nombre
                     </th>
                     <th class="text-left">
                         Descripción
                     </th>
                     <th class="text-left">
-                        Fecha de creación
+                        Título
+                    </th>
+                    <th class="text-left">
+                        Ruta (Path)
+                    </th>
+                    <th class="text-left">
+                        Icono
+                    </th>
+                    <th class="text-left">
+                        Nombre del icono
                     </th>
                     <th class="text-left">
                         Acción
@@ -59,12 +68,19 @@
                 </thead>
                 <tbody>
                 <tr
-                    v-for="item in permisos"
-                    :key="item.rol"
+                    v-for="item in desserts"
+                    :key="item.id_permiso"
                 >
-                    <td>{{ item.nombre_permiso }}</td>
+                    <td>{{ item.nombre }}</td>
                     <td>{{ item.descripcion }}</td>
-                    <td>{{ item.fecha_creacion }}</td>
+                    <td>{{ item.titulo }}</td>
+                    <td>{{ item.path }}</td>
+                    <td>
+                        <v-icon>
+                            {{ item.icono }}
+                        </v-icon>
+                    </td>
+                    <td>{{ item.icono }}</td>
                     <td class="tamañoIconos">
                         <v-container>
                             <v-row>
