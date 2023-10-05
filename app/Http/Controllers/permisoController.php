@@ -13,14 +13,14 @@ class permisoController extends Controller
             ->paginate(5);
 
 
-        $cantidadValores = $obtenerPermisos . sizeof($obtenerPermisos);
+//        $cantidadValores = $obtenerPermisos . sizeof($obtenerPermisos);
         $obtenerPermisos = json_encode($obtenerPermisos);
         $obtenerPermisos = json_decode($obtenerPermisos);
 
 
-        for ($i = 1; $i <= $cantidadValores - 1; $i++) {
-            $obtenerPermisos->permisos_creados = $permisos = json_decode($obtenerPermisos->data[$i]->permisos_creados);
-        }
+//        for ($i = 1; $i <= $cantidadValores - 1; $i++) {
+//            $obtenerPermisos->permisos_creados = $permisos = json_decode($obtenerPermisos->data[$i]->permisos_creados);
+//        }
 
 
         return response()->json([
@@ -31,9 +31,17 @@ class permisoController extends Controller
     public function guardarPermiso(Request $request)
     {
         $nombrePermiso = $request->datos['nombrePermiso'];
+        $descripcionPermiso = $request->datos['descripcionPermiso'];
+        $tituloPermiso = $request->datos['tituloPermiso'];
+        $rutaPermiso = $request->datos['rutaPermiso'];
+        $iconoPermiso = $request->datos['iconoPermiso'];
 
         $guardarPermiso = new permiso();
-        $guardarPermiso->nombre_permiso = $nombrePermiso;
+        $guardarPermiso->nombre = $nombrePermiso;
+        $guardarPermiso->descripcion = $descripcionPermiso;
+        $guardarPermiso->titulo = $tituloPermiso;
+        $guardarPermiso->path = $rutaPermiso;
+        $guardarPermiso->icono = $iconoPermiso;
         $guardarPermiso->fecha_creacion = date('Y-m-d H:i:s');
         if ($guardarPermiso->save()) {
             return response()->json([
@@ -52,10 +60,18 @@ class permisoController extends Controller
     public function guardarPermisoEditado(Request $request)
     {
         $idPermiso = $request->datos['id_permiso'];
-        $nombrePermiso = $request->datos['nombre_permiso'];
+        $nombrePermiso = $request->datos['nombre'];
+        $descripcionPermiso = $request->datos['descripcion'];
+        $titulo = $request->datos['titulo'];
+        $ruta = $request->datos['path'];
+        $icono = $request->datos['icono'];
 
         $editarPermiso = permiso::find($idPermiso);
-        $editarPermiso->nombre_permiso = $nombrePermiso;
+        $editarPermiso->nombre = $nombrePermiso;
+        $editarPermiso->descripcion = $descripcionPermiso;
+        $editarPermiso->titulo = $titulo;
+        $editarPermiso->path = $ruta;
+        $editarPermiso->icono = $icono;
         if ($editarPermiso->save()) {
             return response()->json([
                 'title'   => 'Listo!',

@@ -4,7 +4,7 @@
             <v-dialog
                 v-model="dialog"
                 persistent
-                width="600"
+                width="800"
             >
                 <v-form v-model="validDatos" @submit.prevent="agregarRol">
                     <v-card>
@@ -16,6 +16,7 @@
                                 <v-row>
                                     <v-col
                                         cols="12"
+                                        sm="6"
                                     >
                                         <v-text-field
                                             v-model="nombreRol"
@@ -24,7 +25,18 @@
                                             :rules="nombreRolRule"
                                         ></v-text-field>
                                     </v-col>
-
+                                    <v-col
+                                        cols="12"
+                                        sm="6"
+                                    >
+                                        <v-text-field
+                                            v-model="icono"
+                                            label="Icono a utilizar"
+                                            placeholder="mdi-pizza"
+                                            variant="underlined"
+                                            :rules="nombreIconoRule"
+                                        ></v-text-field>
+                                    </v-col>
                                 </v-row>
                             </v-container>
                         </v-card-text>
@@ -63,6 +75,7 @@ export default {
     data: () => ({
         dialog: true,
         nombreRol: '',
+        icono: '',
         //formulario
         validDatos: false,
         agregarRol: false,
@@ -70,7 +83,10 @@ export default {
         // Reglas de las cajas de texto
         nombreRolRule: [
             v => !!v || 'Nombre del rol es requerido',
-        ]
+        ],
+        nombreIconoRule: [
+            v => !!v || 'Nombre del icono es requerido',
+        ],
     }),
     methods: {
         cerrarAgregarRol() {
@@ -79,6 +95,7 @@ export default {
         guardarRol() {
             let rol = {
                 nombreRol: this.nombreRol,
+                icono: this.icono
             }
 
             axios.post('/guardarRol', {

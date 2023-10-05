@@ -35,19 +35,21 @@ class rolesController extends Controller
     public function guardarRol(Request $request)
     {
         $nombre = $request->datos['nombreRol'];
+        $icono = $request->datos['icono'];
         //guardar Rol
         $guardarRol = new rol();
         $guardarRol->nombre_rol = $nombre;
+        $guardarRol->icono = $icono;
         $guardarRol->estado_rol = 1;
         if ($guardarRol->save()) {
             return response()->json([
-                'title' => 'Listo!',
+                'title'   => 'Listo!',
                 'message' => 'Rol creado correctamente.',
             ], 200);
         }
 
         return response()->json([
-            'title' => 'Atención',
+            'title'   => 'Atención',
             'message' => 'Ha ocurrido un error al almacenar la información, por favor intente de nuevo.',
         ], 500);
 
@@ -57,19 +59,22 @@ class rolesController extends Controller
     {
         $idRol = $request->datos['id_rol'];
         $nombreRol = $request->datos['nombre_rol'];
+        $icono = $request->datos['icono'];
+
 
         //editar rol
         $editarRol = rol::find($idRol);
         $editarRol->nombre_rol = $nombreRol;
+        $editarRol->icono = $icono;
         if ($editarRol->save()) {
             return response()->json([
-                'title' => 'Listo!',
+                'title'   => 'Listo!',
                 'message' => 'Rol editado correctamente.',
             ], 200);
         }
 
         return response()->json([
-            'title' => 'Atención',
+            'title'   => 'Atención',
             'message' => 'Ha ocurrido un error al editar el rol.',
         ], 403);
     }
@@ -82,13 +87,13 @@ class rolesController extends Controller
 
         if ($desactivarRol->save()) {
             return response()->json([
-                'title' => 'Listo!',
+                'title'   => 'Listo!',
                 'message' => 'Rol desactivado con éxito',
             ], 200);
         }
 
         return response()->json([
-            'title' => 'Atención',
+            'title'   => 'Atención',
             'message' => 'Ha ocurrido un error al desactivar el rol, por favor intente de nuevo',
         ], 403);
     }
@@ -101,13 +106,13 @@ class rolesController extends Controller
 
         if ($activarRol->save()) {
             return response()->json([
-                'title' => 'Listo!',
+                'title'   => 'Listo!',
                 'message' => 'Rol activado con éxito',
             ], 200);
         }
 
         return response()->json([
-            'title' => 'Atención',
+            'title'   => 'Atención',
             'message' => 'Ha ocurrido un error al activar el rol, por favor intente de nuevo',
         ], 403);
     }

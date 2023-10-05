@@ -11,7 +11,7 @@
                 </template>
 
                 <v-list-item
-                    v-for="({text, route, icon}, index) in links"
+                    v-for="({text, route, icon}, index) in administrador"
                     :key="index"
                     :to="route"
                     :value="text"
@@ -19,6 +19,28 @@
                     :prepend-icon="icon"
                 ></v-list-item>
             </v-list-group>
+
+
+            <!--            Ruta de Sistema-->
+            <v-list-group value="Sistema">
+                <template v-slot:activator="{ props }">
+                    <v-list-item
+                        v-bind="props"
+                        prepend-icon="mdi-logout"
+                        title="Sistema"
+                    ></v-list-item>
+                </template>
+
+                <v-list-item
+                    v-for="({text, icon}, index) in sistema"
+                    :key="index"
+                    :value="text"
+                    :title="text"
+                    :prepend-icon="icon"
+                    @click="logout"
+                ></v-list-item>
+            </v-list-group>
+
 
             <!--            Ruta de personal-->
             <v-list-group value="Personal">
@@ -39,25 +61,6 @@
                     :prepend-icon="icon"
                 ></v-list-item>
             </v-list-group>
-            <!--            Ruta de Sistema-->
-            <v-list-group value="Sistema">
-                <template v-slot:activator="{ props }">
-                    <v-list-item
-                        v-bind="props"
-                        prepend-icon="mdi-logout"
-                        title="Sistema"
-                    ></v-list-item>
-                </template>
-
-                <v-list-item
-                    v-for="({text, icon}, index) in sistema"
-                    :key="index"
-                    :value="text"
-                    :title="text"
-                    :prepend-icon="icon"
-                    @click="logout"
-                ></v-list-item>
-            </v-list-group>
         </v-list>
     </v-card>
 </template>
@@ -67,24 +70,28 @@ export default {
     name: "rutas",
     data: () => ({
         open: ['Administrador'],
-        links: [
+        administrador: [
+            {text: "Platillos", route: "/platillos", icon: "mdi-chef-hat"},
             {text: "Usuarios", route: "/usuarios", icon: "mdi-account"},
             {text: "Roles", route: "/roles", icon: "mdi-account-switch"},
-        ],
-        personal: [
-            {text: "Cambiar contraseña", route: "/cambioPass", icon: "mdi-lock-reset"}
+            {text: "Permisos", route: "/permisos", icon: "mdi-account-key"},
         ],
         sistema: [
             {text: "Cerrar Sesión", icon: "mdi-account-key-outline"}
         ],
+        personal: [
+            {text: "Cambiar contraseña", route: "/cambioPass", icon: "mdi-lock-reset"}
+        ],
     }),
     methods: {
+        fetchRoutes() {
+        },
         logout() {
             axios.get('/logout')
                 .then(res => {
                     this.loading = true
                     this.$iziToast.success(res)
-                    location.reload('/')
+                    location.reload()
                 })
                 .catch(err => {
                     this.loading = false
