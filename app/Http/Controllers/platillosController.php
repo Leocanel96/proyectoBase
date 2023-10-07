@@ -27,8 +27,7 @@ class platillosController extends Controller
         ], 200);
     }
 
-    public
-    function tipoPlatillos(Request $request)
+    public function tipoPlatillos(Request $request)
     {
         $busquedaPlatillo = tipo_platillo::selectRaw('id_tipo,nombre')
             ->get();
@@ -50,8 +49,7 @@ class platillosController extends Controller
         ], 200);
     }
 
-    public
-    function obtenerPromociones()
+    public function obtenerPromociones()
     {
         $buscarPromociones = promocion::selectRaw('id_promocion, tipo_promocion, monto_promocion')
             ->get();
@@ -124,7 +122,6 @@ class platillosController extends Controller
                 'message' => 'Ha ocurrido un error'
             ], 403);
         }
-
     }
 
     public function eliminarPlatillo(Request $request)

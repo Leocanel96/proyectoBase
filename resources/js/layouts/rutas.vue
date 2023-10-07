@@ -75,6 +75,7 @@ export default {
             {text: "Usuarios", route: "/usuarios", icon: "mdi-account"},
             {text: "Roles", route: "/roles", icon: "mdi-account-switch"},
             {text: "Permisos", route: "/permisos", icon: "mdi-account-key"},
+            {text: "Asignación", route: "/asignacion", icon: "mdi-note-plus-outline"},
         ],
         sistema: [
             {text: "Cerrar Sesión", icon: "mdi-account-key-outline"}

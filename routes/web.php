@@ -7,6 +7,7 @@ use App\Http\Controllers\LoginController;
 use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\permisoController;
 use App\Http\Controllers\cambioContraseñaController;
+use App\Http\Controllers\asignacion;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\autenticacion;
 
@@ -44,6 +45,12 @@ Route::middleware([autenticacion::class])->group(function () {
     Route::post('/guardarPermiso', [permisoController::class, 'guardarPermiso'])->name('guardarPermiso');
     Route::post('/guardarPermisoEditado', [permisoController::class, 'guardarPermisoEditado'])->name('guardarPermisoEditado');
     Route::post('/guardarPermisosAgregados', [permisoController::class, 'guardarPermisosAgregados'])->name('guardarPermisosAgregados');
+    Route::post('/eliminarPermiso', [permisoController::class, 'eliminarPermiso'])->name('eliminarPermiso');
+    Route::get('/obtenerPermisosAsignados', [asignacion::class, 'obtenerPermisosAsignados'])->name('obtenerPermisosAsignados');
+    Route::get('/obtenerRoles', [asignacion::class, 'obtenerRoles'])->name('obtenerRoles');
+    Route::post('/guardarAsignacion', [asignacion::class, 'guardarAsignacion'])->name('guardarAsignacion');
+    Route::post('/guardarAsignacionEditada', [asignacion::class, 'guardarAsignacionEditada'])->name('guardarAsignacionEditada');
+    Route::post('/eliminarAsignacion', [asignacion::class, 'eliminarAsignacion'])->name('eliminarAsignacion');
 });
 Route::post('/login', [LoginController::class, 'login'])->name('login');
 
