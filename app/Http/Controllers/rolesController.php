@@ -11,7 +11,7 @@ class rolesController extends Controller
     public function obtenerRolesCreados()
     {
         $obtenerRoles = rol::select()
-            ->where('id_rol', '!=', 1)
+//            ->where('id_rol', '!=', 1)
             ->paginate(5);
         $obtenerRoles->getCollection()->map(function ($obtenerRoles) {
             if ($obtenerRoles['estado_rol'] == 1) {

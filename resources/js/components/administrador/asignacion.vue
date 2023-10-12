@@ -28,9 +28,9 @@
                         <v-btn
                             color="info"
                             dark
-                            @click="agregarPermiso"
+                            @click="asignarPermisoRol"
                         >
-                            Agregar Permiso
+                            Agregar Permiso Rol
                             <v-icon
                                 end
                                 icon="mdi-plus"
@@ -44,13 +44,13 @@
                 <thead>
                 <tr>
                     <th class="text-left">
-                        Nombre
+                        Nombre del Rol
+                    </th>
+                    <th class="text-left">
+                        Nombre del permiso
                     </th>
                     <th class="text-left">
                         Descripción
-                    </th>
-                    <th class="text-left">
-                        Título
                     </th>
                     <th class="text-left">
                         Ruta (Path)
@@ -71,9 +71,9 @@
                     v-for="item in desserts"
                     :key="item.id_permiso"
                 >
+                    <td>{{ item.nombre_rol }}</td>
                     <td>{{ item.nombre }}</td>
                     <td>{{ item.descripcion }}</td>
-                    <td>{{ item.titulo }}</td>
                     <td>{{ item.path }}</td>
                     <td>
                         <v-icon>
@@ -98,30 +98,19 @@
                                         </v-tooltip>
                                         <v-icon icon="mdi-pencil"
                                                 dark
-                                                @click="editarPermiso(item)"
+                                                @click="editarAsignacion(item)"
                                         >
                                         </v-icon>
-
-                                        <!--                                        &lt;!&ndash;                    Asignar Permisos&ndash;&gt;-->
-                                        <!--                                        <v-tooltip-->
-                                        <!--                                            activator="parent"-->
-                                        <!--                                            location="top"-->
-                                        <!--                                        >Asignar Permisos-->
-                                        <!--                                        </v-tooltip>-->
-                                        <!--                                        <v-icon icon="mdi-key-plus"-->
-                                        <!--                                                dark-->
-                                        <!--                                                @click="asignarPermisos(item)"-->
-                                        <!--                                        >-->
-                                        <!--                                        </v-icon>-->
-
+                                    </div>
+                                    <div>
                                         <v-tooltip
                                             activator="parent"
                                             location="top"
-                                        >Eliminar Permiso
+                                        >Eliminar
                                         </v-tooltip>
                                         <v-icon icon="mdi-delete-empty"
                                                 dark
-                                                @click="eliminarPermiso(item)"
+                                                @click="eliminarAsignacion(item)"
                                         >
                                         </v-icon>
                                     </div>
@@ -137,80 +126,69 @@
                 :length="totalPaginas"
                 :total-visible="10"
                 rounded="circle"
-                @update:modelValue="buscarPermisos"
+                @update:modelValue="buscarPermisosAsignados"
             ></v-pagination>
 
         </v-card>
-        <crear-permiso v-if="agregarNuevoPermiso" @cerrarNuevoPermiso="cerrarNuevoPermiso"></crear-permiso>
-        <editar-permiso v-if="verEditarPermiso" :enviarPermiso="enviarPermiso" @cerrarEditarPermiso="cerrarEditarPermiso"></editar-permiso>
-        <agregar-permiso v-if="verAgregarPermisos" :enviarAgregarPermiso="enviarAgregarPermiso" @cerrarAgregarPermiso="cerrarAgregarPermiso"></agregar-permiso>
-        <eliminar-permiso v-if="verEliminarPermiso" :enviarEliminarPermiso="enviarEliminarPermiso" @cerrarEliminarPermiso="cerrarEliminarPermiso"></eliminar-permiso>
-        <!--    <desactivar-rol v-if="verDesactivarRol" :enviarDesactivarRol="enviarDesactivarRol" @cerrarDesactivarRol="cerrarDesactivarRol"></desactivar-rol>-->
+        <crear-asignacion-permiso-rol v-if="agregarNuevaAsignacionPermisoRol" @cerrarNuevaAsignacion="cerrarNuevaAsignacion"></crear-asignacion-permiso-rol>
+        <editar-asignacion v-if="verEditarAsignacion" :enviarAsignacion="enviarAsignacion" @cerrarEditarAsignacion="cerrarEditarAsignacion"></editar-asignacion>
+        <eliminar-asignacion v-if="verEliminarAsignacion" :enviarEliminarAsignacion="enviarEliminarAsignacion" @cerrarEliminarAsignacion="cerrarEliminarAsignacion"></eliminar-asignacion>
     </div>
 </template>
 
 <script>
-import sha256 from "crypto-js/sha256.js";
-import CrearPermiso from "@/components/dialogs/crearPermiso.vue";
-import EditarPermiso from "@/components/dialogs/editarPermiso.vue";
-import AgregarPermiso from "@/components/dialogs/agregarPermiso.vue";
-import EliminarPermiso from "@/components/dialogs/eliminarPermiso.vue";
-// import AgregarRol from "@/components/dialogs/agregarRol.vue";
+import CrearAsignacionPermisoRol from "@/components/dialogs/crearAsignacionPermisoRol.vue";
+import EditarAsignacion from "@/components/dialogs/editarAsignacion.vue";
+import EliminarAsignacion from "@/components/dialogs/eliminarAsignacion.vue";
 
 export default {
-    name: "permisos",
-    components: {EliminarPermiso, AgregarPermiso, EditarPermiso, CrearPermiso},
+    name: "asignacion",
+    components: {EliminarAsignacion, EditarAsignacion, CrearAsignacionPermisoRol},
     data: () => ({
         desserts: [],
         buscar: '',
-        agregarNuevoPermiso: false,
-        verEditarPermiso: false,
-        enviarPermiso: [],
-        verAgregarPermisos: false,
-        enviarAgregarPermiso: [],
-        verEliminarPermiso: false,
-        enviarEliminarPermiso: [],
+        agregarNuevaAsignacionPermisoRol: false,
+        verEditarAsignacion: false,
+        enviarAsignacion: [],
+
+        verEliminarAsignacion: false,
+        enviarEliminarAsignacion: [],
+
 
         totalPaginas: 0,
         page: 1
     }),
     methods: {
-        agregarPermiso() {
-            this.agregarNuevoPermiso = true
+        asignarPermisoRol() {
+            this.agregarNuevaAsignacionPermisoRol = true
         },
-        editarPermiso(item) {
-            this.verEditarPermiso = true
-            this.enviarPermiso = item
+        editarAsignacion(item) {
+            this.verEditarAsignacion = true
+            this.enviarAsignacion = item
+
         },
-        asignarPermisos(item) {
-            this.verAgregarPermisos = true
-            this.enviarAgregarPermiso = item
+        cerrarNuevaAsignacion() {
+            this.agregarNuevaAsignacionPermisoRol = false
+            this.buscarPermisosAsignados()
         },
-        cerrarAgregarPermiso() {
-            this.verAgregarPermisos = false
-            this.buscarPermisos()
+        cerrarEditarAsignacion() {
+            this.verEditarAsignacion = false
+            this.buscarPermisosAsignados()
         },
-        cerrarNuevoPermiso() {
-            this.agregarNuevoPermiso = false
-            this.buscarPermisos()
+        eliminarAsignacion(item) {
+            this.verEliminarAsignacion = true
+            this.enviarEliminarAsignacion = item
         },
-        cerrarEditarPermiso() {
-            this.verEditarPermiso = false
-            this.buscarPermisos()
+        cerrarEliminarAsignacion() {
+            this.verEliminarAsignacion = false
+            this.buscarPermisosAsignados()
         },
-        eliminarPermiso(item) {
-            this.verEliminarPermiso = true
-            this.enviarEliminarPermiso = item
-        },
-        cerrarEliminarPermiso() {
-            this.verEliminarPermiso = false
-            this.buscarPermisos()
-        },
-        buscarPermisos() {
-            axios.get('/obtenerPermisosCreados?page=' + this.page)
+
+        buscarPermisosAsignados() {
+            axios.get('/obtenerPermisosAsignados?page=' + this.page)
                 .then(res => {
-                    this.desserts = res.data['permisos']['data']
-                    this.totalPaginas = res.data.permisos.last_page
+                    this.desserts = res.data['permisosAsignacion']['data']
+                    this.totalPaginas = res.data.permisosAsignacion.last_page
                     if (Object.entries(this.desserts).length === 0) {
                         return this.$iziToast.warning("Atención", "No existen Permisos en este momento")
                     }
@@ -231,10 +209,10 @@ export default {
         }
     },
     beforeCreate() {
-        axios.get('/obtenerPermisosCreados?page=' + 1)
+        axios.get('/obtenerPermisosAsignados?page=' + 1)
             .then(res => {
-                this.desserts = res.data['permisos']['data']
-                this.totalPaginas = res.data.permisos.last_page
+                this.desserts = res.data['permisosAsignacion']['data']
+                this.totalPaginas = res.data.permisosAsignacion.last_page
                 if (Object.entries(this.desserts).length === 0) {
                     return this.$iziToast.warning("Atención", "No existen permisos en este momento")
                 }
@@ -245,10 +223,9 @@ export default {
             .finally(() => {
 
             })
-    },
+    }
 }
 </script>
-
 <style scoped>
 
 </style>

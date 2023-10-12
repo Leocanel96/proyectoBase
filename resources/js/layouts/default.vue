@@ -47,6 +47,7 @@ const drawer = ref(null)
 import {ref} from "vue";
 
 export default {
+  components: {rutas},
   data() {
 
     return {

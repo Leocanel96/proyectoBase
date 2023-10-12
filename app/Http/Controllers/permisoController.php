@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\permiso;
+use App\Models\platillo;
 use Illuminate\Http\Request;
 
 class permisoController extends Controller
@@ -108,5 +109,24 @@ class permisoController extends Controller
                 'message' => 'Ha ocurrido un error, por favor verifique.'
             ], 403);
         }
+    }
+
+    public function eliminarPermiso(Request $request)
+    {
+        $idPermisoEliminar = $request->datos;
+        $permisoEliminar = permiso::where('id_permiso', '=', $idPermisoEliminar)
+            ->delete();
+
+        if ($permisoEliminar === 1) {
+            return response()->json([
+                'title'   => 'Listo!',
+                'message' => 'Permiso eliminado correctamente.',
+            ], 200);
+        }
+
+        return response()->json([
+            'title'   => 'Atención!',
+            'message' => 'Ha ocurrido un error al eliminar el permiso.'
+        ], 403);
     }
 }

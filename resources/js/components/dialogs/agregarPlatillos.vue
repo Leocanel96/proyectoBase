@@ -6,7 +6,7 @@
           persistent
           width="800"
       >
-        <v-form v-model="validDatos" @submit.prevent="agregarPlatillo">
+        <v-form v-model="validDatos" @submit.prevent="agregarPlatillo" enctype="multipart/form-data">
           <v-card>
             <v-card-title>
               <span class="text-h5">Agregar platillo</span>
@@ -21,7 +21,7 @@
 
                   >
                     <v-text-field
-                        v-model="nombrePlatillo"
+                        v-model="formData.nombrePlatillo"
                         label="Nombre del platillo"
                         variant="underlined"
                         :rules="nombrePlatilloRule"
@@ -32,7 +32,7 @@
                       sm="6"
                   >
                     <v-text-field
-                        v-model="descripcionPlatillo"
+                        v-model="formData.descripcionPlatillo"
                         label="Descripción del platillo"
                         variant="underlined"
                         :rules="descripcionPlatilloRule"
@@ -63,7 +63,7 @@
                       sm="6"
                   >
                     <v-text-field
-                        v-model="precionPlatillo"
+                        v-model="formData.precionPlatillo"
                         label="Precio Platillo"
                         variant="underlined"
                         :rules="precioRule"
@@ -91,6 +91,17 @@
                         solo
                         return-object
                     ></v-autocomplete>
+                  </v-col>
+                  <v-col>
+                    <v-file-input
+                        ref="imagenCargar"
+                        v-model="imagenPlatillo"
+                        :rules="imagenPlatilloRule"
+                        accept="image/png, image/jpeg, image/bmp"
+                        prepend-icon="mdi-camera"
+                        label="Imagen platillo"
+                        @change="handleFileUpload"
+                    ></v-file-input>
                   </v-col>
                 </v-row>
               </v-container>
@@ -131,11 +142,15 @@ export default {
   name: "agregarPlatillos",
   data: () => ({
     dialog: true,
-    nombrePlatillo: '',
-    descripcionPlatillo: '',
-    tipoPlatillo: '',
-    precionPlatillo: '',
+    formData: {
+      nombrePlatillo: '',
+      descripcionPlatillo: '',
+      precionPlatillo: '',
+
+    },
     promocionPlatillo: '',
+    tipoPlatillo: '',
+    imagenPlatillo: null,
     //autocomplete
     loading: false,
     items: [],
@@ -165,23 +180,36 @@ export default {
     promocionRule: [
       v => !!v || 'Promoción es requerido.',
     ],
+    imagenPlatilloRule: [
+      v => {
+        return !v || !v.length || v[0].size < 2000000 || 'El tamaño de la imagen debe ser inferior a 2MB!'
+      },
+      v => !!v || 'Imagen es requerida',
+    ]
   }),
   methods: {
     cerrarAgregarPlatillos() {
       this.$emit('cerrarNuevoPlatillo', null)
     },
+    handleFileUpload(event) {
+      this.imagen = event.target.files[0];
+    },
     guardarPlatillo() {
-      let platillo = {
-        nombrePlatillo: this.nombrePlatillo,
-        descripcionPlatillo: this.descripcionPlatillo,
-        tipoPlatillo: this.tipoPlatillo,
-        precioPlatillo: this.precionPlatillo,
-        promocion: this.promocionPlatillo
-      }
+      console.log(JSON.stringify(this.promocionPlatillo, null, 2))
+      const formData = new FormData();
+      formData.append('nombrePlatillo', this.formData.nombrePlatillo)
+      formData.append('descripcionPlatillo', this.formData.descripcionPlatillo)
+      formData.append('idTipoPlatillo', this.tipoPlatillo['id_tipo'])
+      formData.append('nombreTipoPlatillo', this.tipoPlatillo['nombre'])
+      formData.append('precioPlatillo', this.formData.precionPlatillo)
+      formData.append('idPromocionPlatillo', this.promocionPlatillo['id_promocion'])
+      formData.append('tipoPromocionPlatillo', this.promocionPlatillo['tipo_promocion'])
+      formData.append('montoPromocionPlatillo', this.promocionPlatillo['monto_promocion'])
 
-      axios.post('/guardarPlatillo', {
-        datos: platillo
-      })
+
+      formData.append('imagen', this.imagen)
+
+      axios.post('/guardarPlatillo', formData)
           .then(res => {
             this.loading = false
             this.$iziToast.success(res)
@@ -189,11 +217,46 @@ export default {
             this.cerrarAgregarPlatillos()
           })
           .catch(err => {
-            this.$iziToast.error(err)
-          })
-          .finally(() => {
             this.loading = false
-          })
+            this.$iziToast.success(res)
+            this.limpiarCampos()
+            this.cerrarAgregarPlatillos()
+          });
+
+      // const img = this.$refs.imagen.files[0]
+      // let platillo = {
+      //   nombrePlatillo: this.nombrePlatillo,
+      //   descripcionPlatillo: this.descripcionPlatillo,
+      //   tipoPlatillo: this.tipoPlatillo,
+      //   precioPlatillo: this.precionPlatillo,
+      //   promocion: this.promocionPlatillo,
+      //   imagen: this.imagenPlatillo
+      //
+      // }
+      //
+      // axios.post('/guardarPlatillo', {
+      //   nombrePlatillo: this.nombrePlatillo,
+      //   descripcionPlatillo: this.descripcionPlatillo,
+      //   tipoPlatillo: this.tipoPlatillo,
+      //   precioPlatillo: this.precionPlatillo,
+      //   promocion: this.promocionPlatillo,
+      //   imagen: this.imagenPlatillo,
+      //   headers: {
+      //     'Content-Type': 'multipart/form-data',
+      //   },
+      // })
+      //     .then(res => {
+      //       this.loading = false
+      //       this.$iziToast.success(res)
+      //       this.limpiarCampos()
+      //       this.cerrarAgregarPlatillos()
+      //     })
+      //     .catch(err => {
+      //       this.$iziToast.error(err)
+      //     })
+      //     .finally(() => {
+      //       this.loading = false
+      //     })
     },
     buscarPlatillos(itemTitle, queryText, item) {
       const textOne = item.raw.nombre.toLowerCase()
