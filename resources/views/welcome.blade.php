@@ -15,7 +15,7 @@
 <div id="dasboard">
     @php(session_start())
     @if(!isset($_SESSION['id_user']))
-        <login></login>
+        <clientes></clientes>
     @else
         <workarea></workarea>
     @endif

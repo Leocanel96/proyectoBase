@@ -8,6 +8,8 @@ use App\Http\Controllers\LogoutController;
 use App\Http\Controllers\permisoController;
 use App\Http\Controllers\cambioContraseñaController;
 use App\Http\Controllers\asignacion;
+use App\Http\Controllers\rutasController;
+use App\Http\Controllers\clientesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Middleware\autenticacion;
 
@@ -51,8 +53,10 @@ Route::middleware([autenticacion::class])->group(function () {
     Route::post('/guardarAsignacion', [asignacion::class, 'guardarAsignacion'])->name('guardarAsignacion');
     Route::post('/guardarAsignacionEditada', [asignacion::class, 'guardarAsignacionEditada'])->name('guardarAsignacionEditada');
     Route::post('/eliminarAsignacion', [asignacion::class, 'eliminarAsignacion'])->name('eliminarAsignacion');
+    Route::get('/obtenerRutas', [rutasController::class, 'obtenerRutas'])->name('obtenerRutas');
 });
 Route::post('/login', [LoginController::class, 'login'])->name('login');
+Route::get('/obtenerPlatillosClientes', [clientesController::class, 'obtenerPlatillosClientes'])->name('obtenerPlatillosClientes');
 
 Route::get('/{any}', function () {
     return view('welcome');
