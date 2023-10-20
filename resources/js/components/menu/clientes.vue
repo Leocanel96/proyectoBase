@@ -21,22 +21,13 @@
                     </v-btn>
                 </div>
                 <div v-else>
-                    <v-btn icon>
-                        <v-badge :content="contadorCarrito" color="error">
-                            <v-icon
-                                @click="verPlatillosCarrito"
-                            >mdi-cart
-                            </v-icon>
-                        </v-badge>
-                    </v-btn>
+                    <v-badge :content="contadorCarrito" color="error">
+                        <v-btn icon="mdi-cart" @click="verPlatillosCarrito"></v-btn>
+                    </v-badge>
                 </div>
-
-                <v-btn icon>
-                    <v-icon
-                        @click="login"
-                    >mdi-account-arrow-right
-                    </v-icon>
-                </v-btn>
+                <div>
+                    <v-btn icon="mdi-account-arrow-right" @click="login"></v-btn>
+                </div>
             </v-app-bar>
 
             <v-main>
@@ -109,7 +100,7 @@
             </v-main>
         </v-app>
         <inicio-sesion v-if="iniciarSesion" @cerrarInicioSesion="cerrarInicioSesion"></inicio-sesion>
-        <carrito v-if="verCarrito" :enviarCarrito="enviarCarrito" @cerrarCarrito="cerrarCarrito"></carrito>
+        <carrito v-if="verCarrito" :enviarCarrito="enviarCarrito" @cerrarCarrito="cerrarCarrito" @contadorCarritoActual="contadorCarritoActual"></carrito>
     </div>
 </template>
 <script>
@@ -144,6 +135,10 @@ export default {
         }
     },
     methods: {
+        contadorCarritoActual() {
+            console.log("llega al contador del carrito")
+            this.contadorCarrito = this.enviarCarrito.length
+        },
         login() {
             this.iniciarSesion = true
         },
@@ -167,13 +162,11 @@ export default {
                 descripcion: '',
                 precio: ''
             }
-
             this.contadorCarrito = this.platillosCarrito.length
         },
         verPlatillosCarrito() {
             this.verCarrito = true
             this.enviarCarrito = this.platillosCarrito
-            console.log(JSON.stringify(this.enviarCarrito, null, 2))
         },
         cerrarCarrito() {
             this.verCarrito = false

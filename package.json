@@ -25,6 +25,7 @@
     "vue-plugin-load-script": "^2.1.1",
     "vue-progressbar": "^0.7.5",
     "vue-router": "^4.2.4",
+    "vue-spinner": "^1.0.4",
     "vuetify": "^3.3.14"
   }
 }

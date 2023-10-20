@@ -14,7 +14,7 @@
                             </v-card-title>
                             <v-row>
                                 <v-col
-                                    v-for="item in enviarCarrito"
+                                    v-for="(item, index) in enviarCarrito"
                                     :key="item.idPlatillo"
                                     cols="12"
                                     md="4"
@@ -34,7 +34,7 @@
                                             <v-spacer></v-spacer>
                                             <v-icon icon="mdi-delete-empty"
                                                     dark
-                                                    @click="eliminarPlatilloCarrito(item)"
+                                                    @click="eliminarPlatilloCarrito(item, index)"
                                             >
                                             </v-icon>
                                         </v-card-actions>
@@ -68,30 +68,37 @@
                 </v-container>
             </v-dialog>
         </v-row>
+
+
     </template>
 </template>
 
 <script>
+
 export default {
     name: "carrito",
     data: () => ({
         dialogVerCarrito: true,
-        sumaTotal: ''
+        sumaTotal: '',
     }),
     methods: {
-        eliminarPlatilloCarrito(platillo) {
-            console.log(JSON.stringify(platillo, null, 2))
+        eliminarPlatilloCarrito(platillo, index) {
+            this.enviarCarrito.splice(index, 1);
+            this.sumaPedido()
         },
         cerrar() {
+            this.$emit('contadorCarritoActual', null)
             this.$emit('cerrarCarrito', null)
         },
         pagar() {
 
+        },
+        sumaPedido() {
+            this.sumaTotal = this.enviarCarrito.reduce((total, element) => total + parseInt(element.precio, 10), 0)
         }
     },
     mounted() {
-        console.log("ingresa aca")
-        this.sumaTotal = this.enviarCarrito.reduce((total, element) => total + parseInt(element.precio, 10), 0)
+        this.sumaPedido()
     },
     props: {
         enviarCarrito: {
@@ -102,7 +109,6 @@ export default {
             precio: Number
         }
     }
-
 }
 </script>
 
